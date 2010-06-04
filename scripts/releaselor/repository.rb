@@ -1,0 +1,152 @@
+$LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '/../lib')
+
+require 'version'
+
+class Repository
+
+  @@REPOSITORY_ROOT='git@git.springsource.org:virgo/'
+
+  attr_reader :name
+
+  def initialize(name, path, variable, bundle_version, targets = 'test publish', master_branch = 'master', repo_root = @@REPOSITORY_ROOT)
+     if name.nil?grep 
+      abort('Name cannot be nil')
+    end
+    @name = name
+
+    if path.nil? || path == ''
+      abort('Repository path cannot be nil for repository ' + @name)
+    end
+    @path = File.expand_path(path)
+
+    @variable = variable
+
+    if bundle_version.nil?
+      abort('Repository bundle version cannot be nil for repository ' + @name)
+    end
+    @bundle_version = bundle_version
+
+    if targets.nil?
+      abort('Repository build targets cannot be nil for repository ' + @name)
+    end
+    @targets = targets
+
+    if master_branch.nil?
+      abort('Repository master branch cannot be nil for repository ' + @name)
+    end
+    @master_branch = master_branch
+    
+    if repo_root.nil?
+      abort('Repository root cannot be nil for repository ' + @name)
+    end
+    @repo_root = repo_root
+  end
+
+  def checkout
+    if File.exist?(@path)
+      FileUtils.rm_rf(@path)
+    end
+
+    puts '  Checking out ' + @path
+    execute('git clone -b ' + @master_branch + " " + @repo_root + @name + '.git ' + @path)
+    execute('cd ' + @path + '; git submodule update --init')
+  end
+
+  def create_release_branch(version, build_stamp, release_type, versions)
+    create_branch(@bundle_version)
+    update_build_properties(version, build_stamp, release_type)
+    update_build_versions(versions)
+  end
+
+  def build(s3_keys, publish_keys, log_file)
+    puts '    Building:'
+    puts '      BUNDLE_VERSION: ' + @bundle_version
+    puts '      TARGETS: ' + @targets
+    execute(
+      'ant ' +
+      '-propertyfile ' + s3_keys + ' ' +
+      '-propertyfile ' + publish_keys + ' ' +
+      '-f ' + @path + '/build-*/build.xml ' +
+      @targets + ' >> ' + log_file)
+  end
+
+  def create_tag
+    puts '    Creating tag ' + @bundle_version
+    execute('cd ' + @path + '; git tag -a -m "[RELEASELOR] ' + @bundle_version +'" ' + @bundle_version)
+  end
+
+  def update_master_branch(new_version, versions)
+    create_branch(new_version)
+    update_build_properties(new_version)
+    update_build_versions(versions)
+  end
+
+  def versions
+    versions = Hash.new
+    
+    IO.foreach(@path + '/build.versions') do |line|
+      versions[$1.strip] = $2.strip if line =~ /([^=]*)=(.*)/
+    end
+    
+    versions[@variable] = @bundle_version
+    versions
+  end
+
+  def push(new_version)
+    puts 'Pushing ' + @name
+    execute('cd ' + @path + '; git push origin ' + new_version + ':' + @master_branch + ' --tags')
+  end
+
+########################################################################################################################
+
+  private
+
+  def create_branch(name)
+    puts('  Creating branch ' + name + ' -> ' + @master_branch)
+    execute('cd ' + @path + '; git checkout -q -b ' + name + ' --track origin/' + @master_branch)
+  end
+
+  def update_build_properties(version, build_stamp = nil, release_type = 'integration')
+    properties = @path + '/build.properties'
+    puts '    Updating properties'
+    lines = IO.readlines(properties)
+    lines.each do |line|
+      if line =~ /^version/
+        line.gsub!(/^version.*/, 'version=' + version)
+        
+        if(!build_stamp.nil?)
+          lines.insert(lines.index(line) + 2, 'build.stamp=' + build_stamp + $/)
+        end
+      elsif line =~ /^release\.type/
+        line.gsub!(/^release\.type.*/, 'release.type=' + release_type)
+      end
+    end
+    write_file(properties, lines)
+    execute('cd ' + @path + '; git commit --allow-empty -a -m "[RELEASELOR] Updated properties"')
+  end
+
+  def update_build_versions(versions)
+    puts '    Updating versions'
+    versions.each_pair do |variable, version|
+      Version.update(variable, version, @path)
+    end
+    execute('cd ' + @path + '; git commit --allow-empty -a -m "[RELEASELOR] Updated versions"')
+  end
+
+  def execute(command)
+    output = `#{command}`
+    if $?.to_i != 0
+      abort('Execution Failed')
+    end
+    output
+  end
+
+  def write_file(path, lines)
+    file = File.new(path, 'w')
+    lines.each do |line|
+      file.write(line)
+    end
+    file.close
+  end
+
+end

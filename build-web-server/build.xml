@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="build-web-server" default="precommit" xmlns:ivy="antlib:org.apache.ivy.ant">
+
+	<path id="bundles"/>
+
+	<property file="${basedir}/../build.properties"/>
+	<property file="${basedir}/../build.versions"/>
+	<import file="${basedir}/../virgo-build/multi-bundle/default.xml"/>
+
+	<target name="precommit" depends="clean, clean-integration, test, package, smoke-test"
+		description="Performs a CI server-like build, should be run prior to performing a Git push"/>
+
+	<target name="publish" depends="publish-package, publish-multi-bundle.publish"/>
+
+	<target name="package">
+		<delete dir="${package.output.dir}" quiet="true"/>
+		<mkdir dir="${package.output.dir}"/>
+
+		<property name="kernel.stage.file" value="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"/>
+		<property name="repository.dir" value="${package.output.dir}/repository"/>
+		<property name="repository.ext" value="${repository.dir}/ext"/>
+		<property name="repository.usr" value="${repository.dir}/usr"/>
+
+		<get src="http://${zodiac.basename}.s3.amazonaws.com/zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
+				dest="${kernel.stage.file}" verbose="true" usetimestamp="true"/>
+
+		<unzip src="${kernel.stage.file}" dest="${package.output.dir}">
+			<globmapper from="virgo-kernel-${org.eclipse.virgo.kernel}/*" to="*"/>
+		</unzip>
+
+		<antcall target="package.bin"/>
+		<antcall target="package.config"/>
+		<antcall target="package.docs"/>
+		<antcall target="package.lib"/>
+		<antcall target="package.pickup"/>
+		<antcall target="package.repository"/>
+		<antcall target="package.resources"/>
+
+		<mkdir dir="${package.output.dir}/work"/>
+		<mkdir dir="${repository.usr}"/>
+
+		<mkdir dir="${artifacts.dir}"/>
+		<zip destfile="${package.output.file}">
+			<zipfileset dir="${package.dir}" includes="${package.basename}/bin/*.sh" filemode="755"/>
+			<zipfileset dir="${package.dir}" includes="${package.basename}/bin/service/*.sh" filemode="755"/>
+			<zipfileset dir="${package.dir}" includes="${package.basename}/bin/service/bin/*" filemode="755"/>
+			<zipfileset dir="${package.dir}" includes="${package.basename}/config/org.eclipse.virgo.kernel.jmxremote.access.properties" filemode="600"/>
+			<zipfileset dir="${package.dir}">
+				<exclude name="${package.basename}/bin/*.sh"/>
+				<exclude name="${package.basename}/bin/service/*.sh"/>
+				<exclude name="${package.basename}/bin/service/bin/*"/>
+				<exclude name="${package.basename}/config/org.eclipse.virgo.kernel.jmxremote.access.properties"/>
+			</zipfileset>
+		</zip>
+	</target>
+
+	<target name="package.bin">
+		<chmod perm="755">
+			<fileset dir="${package.output.dir}/bin">
+				<include name="*.sh"/>
+			</fileset>
+			<fileset dir="${package.output.dir}/bin/service">
+				<include name="*.sh"/>
+			</fileset>
+			<fileset dir="${package.output.dir}/bin/service/bin">
+				<exclude name="*.exe"/>
+			</fileset>
+		</chmod>
+		
+		<replaceregexp match="dm Kernel" replace="dm Server" flags="g">
+			<fileset dir="${package.output.dir}/bin/service">
+				<include name="**/*.sh"/>
+				<include name="**/*.bat"/>
+				<include name="**/*.conf"/>
+			</fileset>
+		</replaceregexp>
+		
+		<replaceregexp match="KERNEL_HOME" replace="SERVER_HOME" flags="g"
+				file="${package.output.dir}/bin/service/conf/wrapper.conf"/>
+	</target>
+
+	<target name="package.config">
+		<copy todir="${package.output.dir}/config" failonerror="false" overwrite="true">
+			<fileset dir="${basedir}/config"/>
+		</copy>
+
+		<chmod perm="600">
+			<fileset dir="${package.output.dir}/config">
+				<include name="org.eclipse.virgo.kernel.jmxremote.access.properties"/>
+			</fileset>
+		</chmod>
+
+		<replaceregexp match="initialArtifacts =.*\.springdm"
+				replace="initialArtifacts=repository:plan/org.eclipse.virgo.kernel.userregion.springdm, repository:plan/org.eclipse.virgo.web" flags="s"
+				file="${package.output.dir}/config/org.eclipse.virgo.kernel.userregion.properties"/>
+
+		<replaceregexp match="virgo-kernel" replace="virgo-server" flags="g"
+				file="${package.output.dir}/config/serviceability.xml"/>
+	</target>
+
+	<target name="package.docs" depends="ivy.init">
+		<ivy:resolve resolveId="copy.path" file="${basedir}/docs-ivy.xml" transitive="false" conf="docs"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${basedir}/target/docs/[artifact]-[revision].[ext]" conf="docs" type="zip, pdf"/>
+
+		<copy todir="${package.output.dir}/docs/user-guide/pdf" flatten="true">
+			<fileset dir="${basedir}/target/docs">
+				<include name="**/virgo-user-guide*.pdf"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${package.output.dir}/docs/programmer-guide/pdf" flatten="true">
+			<fileset dir="${basedir}/target/docs">
+				<include name="**/virgo-programmer-guide*.pdf"/>
+			</fileset>
+		</copy>
+
+		<unzip dest="${package.output.dir}/docs/user-guide">
+			<fileset dir="${basedir}/target/docs">
+		        <include name="**/virgo-user-guide*.zip"/>
+		    </fileset>
+		</unzip>
+
+		<unzip dest="${package.output.dir}/docs/programmer-guide">
+			<fileset dir="${basedir}/target/docs">
+		        <include name="**/virgo-programmer-guide*.zip"/>
+		    </fileset>
+		</unzip>
+
+	</target>
+
+	<target name="package.lib">
+		<echo file="${package.output.dir}/lib/.version" append="true"
+				message="virgo.server.version=${bundle.version}&#xa;"/>
+
+		<replaceregexp match="virgo-kernel" replace="virgo-server" flags="g"
+				file="${package.output.dir}/lib/java6-server.profile"/>
+	</target>
+
+	<target name="package.pickup" depends="ivy.init">
+		<ivy:resolve resolveId="copy.path" file="${basedir}/pickup-ivy.xml" transitive="true"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${package.output.dir}/pickup/[artifact]-[revision].[ext]" type="jar, war" conf="pickup"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${package.output.dir}/pickup/[artifact]-[revision].[ext]" type="plan" conf="pickup-plan"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]-[revision].[ext]" type="jar, war" conf="pickup-plan"/>
+	</target>
+
+	<target name="package.repository" depends="ivy.init">
+		<ivy:resolve resolveId="copy.path" file="${basedir}/repository-ivy.xml" transitive="false"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]-[revision].[ext]" conf="ext" type="library,jar,plan"/>
+
+		<ivy:resolve resolveId="copy.path" file="${basedir}/repository-ivy.xml" transitive="true"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]-[revision].[ext]" conf="transitive" type="library,jar,plan" />
+	</target>
+
+	<target name="package.resources">
+		<copy todir="${package.output.dir}" failonerror="false">
+			<fileset dir="${basedir}/resources"/>
+		</copy>
+	</target>
+
+	<target name="smoke-test" description="Runs a smoke test on the packaged build">
+		<path id="smoke.test.bundles">
+			<pathelement location="${basedir}/../org.eclipse.virgo.server.smoketest" />
+		</path>
+		<antcall target="test.pre"/>
+		<all-bundles target="test-package" buildpathRef="smoke.test.bundles">
+			<property name="package.output.file" value="${package.output.file}"/>
+			<property name="package.basename" value="${package.basename}"/>
+			<property name="test-results.output.dir" value="${test-results.output.dir}"/>
+		</all-bundles>
+		<antcall target="test.post"/>
+	</target>
+
+</project>
