@@ -48,7 +48,7 @@ ALL_REPOS = [
   Repository.new(eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web'),
   Repository.new(eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps'),
   Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',  'clean clean-integration doc publish'),
-  Repository.new(local_repo_root,   'web-server',          paths['web-server'],          nil,                                'clean clean-integration test package smoke-test publish')
+  Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          nil,                                'clean clean-integration test package smoke-test publish')
 ]
 
 repos = Array.new
