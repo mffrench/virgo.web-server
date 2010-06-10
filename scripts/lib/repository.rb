@@ -1,15 +1,21 @@
-$LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '/../lib')
+$LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 
-require 'version'
+require "version"
 
 class Repository
 
-  @@REPOSITORY_ROOT='git@git.springsource.org:virgo/'
-
   attr_reader :name
+  attr_reader :targets
+  attr_reader :clone_command
+  attr_reader :bundle_version
 
-  def initialize(name, path, variable, bundle_version, targets = 'test publish', master_branch = 'master', repo_root = @@REPOSITORY_ROOT)
-     if name.nil?grep 
+  def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish', master_branch = 'master')
+    if repo_root.nil?
+      abort('Repository Git Root cannot be nil for repository ' + @name)
+    end
+    @repo_root = repo_root
+      
+    if name.nil?
       abort('Name cannot be nil')
     end
     @name = name
@@ -21,9 +27,6 @@ class Repository
 
     @variable = variable
 
-    if bundle_version.nil?
-      abort('Repository bundle version cannot be nil for repository ' + @name)
-    end
     @bundle_version = bundle_version
 
     if targets.nil?
@@ -36,10 +39,7 @@ class Repository
     end
     @master_branch = master_branch
     
-    if repo_root.nil?
-      abort('Repository root cannot be nil for repository ' + @name)
-    end
-    @repo_root = repo_root
+    @clone_command = 'git clone -b ' + @master_branch + " " + @repo_root + @name + '.git ' + @path 
   end
 
   def checkout
@@ -48,8 +48,11 @@ class Repository
     end
 
     puts '  Checking out ' + @path
-    execute('git clone -b ' + @master_branch + " " + @repo_root + @name + '.git ' + @path)
+    execute(@clone_command)
     execute('cd ' + @path + '; git submodule update --init')
+    if @bundle_version.nil? 
+      create_new_bundle_version_from_properties
+    end
   end
 
   def create_release_branch(version, build_stamp, release_type, versions)
@@ -58,16 +61,28 @@ class Repository
     update_build_versions(versions)
   end
 
-  def build(s3_keys, publish_keys, log_file)
-    puts '    Building:'
-    puts '      BUNDLE_VERSION: ' + @bundle_version
-    puts '      TARGETS: ' + @targets
-    execute(
-      'ant ' +
-      '-propertyfile ' + s3_keys + ' ' +
-      '-propertyfile ' + publish_keys + ' ' +
-      '-f ' + @path + '/build-*/build.xml ' +
-      @targets + ' >> ' + log_file)
+  def update_versions(versions)
+    create_branch(@bundle_version)
+    puts '  Updating versions'
+    versions.each_pair do |variable, version|
+      Version.update(variable, version, @path, true)
+    end
+
+    execute('cd ' + @path + '; git commit --allow-empty -a -m "[RIPPLOR] Updated versions"')
+  end
+
+  def build(s3_keys, log_file, publish_keys=nil)
+    puts '  Building:'
+    puts '    BUNDLE_VERSION: ' + @bundle_version
+    puts '    TARGETS: ' + @targets
+    
+    execute_command = 'ant -propertyfile ' + s3.keys
+    execute_command +=   ' -propertyfile ' + publish.keys if !publish_keys.nil?
+    execute_command +=   ' -f ' + @path + '/build-*/build.xml'
+    execute_command +=   ' -Dbundle.version=' + @bundle_version if publish_keys.nil?
+    execute_command +=' ' + @targets + ' >> ' + log_file
+    
+    execute(execute_command)
   end
 
   def create_tag
@@ -85,9 +100,13 @@ class Repository
     versions = Hash.new
     
     IO.foreach(@path + '/build.versions') do |line|
-      versions[$1.strip] = $2.strip if line =~ /([^=]*)=(.*)/
+      if line =~ /([^=]*)=(.*)/
+        if !($1.strip[-6..-1] == '-RANGE')
+          versions[$1.strip] = $2.strip 
+        end
+      end
     end
-    
+  
     versions[@variable] = @bundle_version
     versions
   end
@@ -97,6 +116,11 @@ class Repository
     execute('cd ' + @path + '; git push origin ' + new_version + ':' + @master_branch + ' --tags')
   end
 
+  def push
+    puts 'Pushing ' + @path
+    execute('cd ' + @path + '; git push origin ' + @bundle_version + ':' + @master_branch)
+  end
+
 ########################################################################################################################
 
   private
@@ -104,6 +128,15 @@ class Repository
   def create_branch(name)
     puts('  Creating branch ' + name + ' -> ' + @master_branch)
     execute('cd ' + @path + '; git checkout -q -b ' + name + ' --track origin/' + @master_branch)
+  end
+  
+  def create_new_bundle_version_from_properties
+    version = nil
+    IO.foreach(@path + '/build.properties') do |line|
+      version = $1.strip if line =~ /^version=(.*)/
+    end
+
+    @bundle_version = version + '.D-' + Time.now.utc.strftime("%Y%m%d%H%M%S")
   end
 
   def update_build_properties(version, build_stamp = nil, release_type = 'integration')

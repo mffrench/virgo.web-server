@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby -wKU
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
+$LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '/../lib')
 
 require 'repository'
 require 'options'
@@ -31,7 +32,7 @@ else
   }
 end
 
-#def initialize(repo_root, name, path, variable, targets = 'clean clean-integration test publish', master_branch = 'master')
+#def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish', master_branch = 'master')
 
 local_repo_root = 'git@git.springsource.org:virgo/'
 eclipse_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/virgo/org.eclipse.virgo.'
@@ -43,12 +44,12 @@ ALL_REPOS = [
   Repository.new(eclipse_repo_root, 'test',                paths['test'],                'org.eclipse.virgo.test'),
   Repository.new(eclipse_repo_root, 'medic',               paths['medic'],               'org.eclipse.virgo.medic'),
   Repository.new(eclipse_repo_root, 'artifact-repository', paths['artifact-repository'], 'org.eclipse.virgo.repository'),
-  Repository.new(eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',         'test package publish'),
+  Repository.new(eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',,         'test package publish'),
   Repository.new(eclipse_repo_root, 'kernel-tools',        paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools'),
   Repository.new(eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web'),
   Repository.new(eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps'),
-  Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',  'clean clean-integration doc publish'),
-  Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          nil,                                'clean clean-integration test package smoke-test publish')
+  Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',,  'clean clean-integration doc publish'),
+  Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          nil,,                                'clean clean-integration test package smoke-test publish')
 ]
 
 repos = Array.new
