@@ -27,7 +27,7 @@
 		<unzip src="${kernel.stage.file}" dest="${package.output.dir}">
 			<globmapper from="virgo-kernel-${org.eclipse.virgo.kernel}/*" to="*"/>
 		</unzip>
-
+		
 		<antcall target="package.bin"/>
 		<antcall target="package.config"/>
 		<antcall target="package.docs"/>
@@ -131,6 +131,8 @@
 	</target>
 
 	<target name="package.resources">
+		<move file="${package.output.dir}/About.html" tofile="${package.output.dir}/AboutKernel.html"/>
+
 		<copy todir="${package.output.dir}" failonerror="false">
 			<fileset dir="${basedir}/resources"/>
 		</copy>
