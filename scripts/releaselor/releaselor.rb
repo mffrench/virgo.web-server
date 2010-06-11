@@ -56,24 +56,25 @@ ALL_REPOS = [
 log_file=File.expand_path('./release.log')
 start_time = Time.new
 
-versions = Hash.new
+accumulate_versions = Hash.new
 ALL_REPOS.each do |repo|
   puts 'Releasing ' + repo.name
   puts '  checkout with "' + repo.clone_command + '"' if DRY_RUN
-  repo.checkout
+  repo.checkout(true)
   if DRY_RUN
     puts "  Create Release branch " + args[:version] + ", " + args[:build_stamp] + ", " + args[:release_type] 
-    puts "    using versions: " + versions
+    puts "    using versions: "
+    accumulate_versions.sort.each {|keyval| puts "      " + keyval[0] + " = " + keyval[1]}
     puts "  Building " + repo.name + " (s3.keys)"
     puts "  Create tag " + repo.bundle_version
     puts "  Update Master branch " + args[:new_version]
   else
-    repo.create_release_branch(args[:version], args[:build_stamp], args[:release_type], versions)
+    repo.create_release_branch(args[:version], args[:build_stamp], args[:release_type], accumulate_versions)
     repo.build(args[:s3_keys], log_file)
     repo.create_tag
-    repo.update_master_branch(args[:new_version], versions)
+    repo.update_master_branch(args[:new_version], accumulate_versions)
   end
-  versions.merge!(repo.versions)
+  accumulate_versions = (repo.versions).merge(accumulate_versions)
 end
 
 if !DRY_RUN

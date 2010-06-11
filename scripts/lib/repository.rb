@@ -42,14 +42,14 @@ class Repository
     @clone_command = 'git clone -b ' + @master_branch + " " + @repo_root + @name + '.git ' + @path 
   end
 
-  def checkout
+  def checkout(quietly=false)
     if File.exist?(@path)
       FileUtils.rm_rf(@path)
     end
-
+    tonull = " >&/dev/null"
     puts '  Checking out ' + @path
-    execute(@clone_command)
-    execute('cd ' + @path + '; git submodule update --init')
+    execute(@clone_command + (quietly ? tonull : ""))
+    execute('cd ' + @path + '; git submodule update --init' + (quietly ? tonull : ""))
     if @bundle_version.nil? 
       create_new_bundle_version_from_properties
     end
@@ -64,8 +64,8 @@ class Repository
   def update_versions(versions)
     create_branch(@bundle_version)
     puts '  Updating versions'
-    versions.each_pair do |variable, version|
-      Version.update(variable, version, @path, true)
+    versions.sort.reverse.each do |var_version|
+      Version.update(var_version[0], var_version[1], @path, true)
     end
 
     execute('cd ' + @path + '; git commit --allow-empty -a -m "[RIPPLOR] Updated versions"')
@@ -150,8 +150,8 @@ class Repository
 
   def update_build_versions(versions)
     puts '    Updating versions'
-    versions.each_pair do |variable, version|
-      Version.update(variable, version, @path)
+    versions.sort.reverse.each do |var_version|
+      Version.update(var_version[0], var_version[1], @path)
     end
     execute('cd ' + @path + '; git commit --allow-empty -a -m "[RELEASELOR] Updated versions"')
   end
