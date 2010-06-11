@@ -105,14 +105,10 @@ class Repository
     versions
   end
 
-  def push(new_version)
+  def push(new_version=nil)
+    new_version = @bundle_version if new_version.nil?
     puts 'Pushing ' + @name
     execute('cd ' + @path + '; git push origin ' + new_version + ':' + @master_branch + ' --tags')
-  end
-
-  def push
-    puts 'Pushing ' + @path
-    execute('cd ' + @path + '; git push origin ' + @bundle_version + ':' + @master_branch)
   end
 
 ########################################################################################################################
