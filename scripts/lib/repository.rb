@@ -76,7 +76,7 @@ class Repository
     puts '    BUNDLE_VERSION: ' + @bundle_version
     puts '    TARGETS: ' + @targets
     
-    execute('ant -propertyfile ' + s3.keys + ' -f ' + @path + '/build-*/build.xml -Dbundle.version=' + @bundle_version + ' ' + @targets + ' >> ' + log_file)
+    execute('ant -propertyfile ' + s3_keys + ' -f ' + @path + '/build-*/build.xml -Dbundle.version=' + @bundle_version + ' ' + @targets + ' >> ' + log_file)
   end
 
   def create_tag
