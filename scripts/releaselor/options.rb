@@ -42,14 +42,6 @@ Choice.options do
     desc('(defaults to ~/repository.map)')
   end
 
-  option :publish_keys, :required => false do
-    short('-p')
-    long('--publish-keys=PUBLISH-KEYS')
-    default('~/publish.properties')
-    desc('The property file containing the ssh information used for publishing')
-    desc('(defaults to ~/publish.properties)')
-  end
-  
   option :s3_keys, :required => false do
     short('-s')
     long('--s3-keys=S3-KEYS')

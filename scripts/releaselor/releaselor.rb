@@ -49,7 +49,7 @@ ALL_REPOS = [
   Repository.new(eclipse_repo_root, 'kernel-tools',        paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',    bundle_version),
   Repository.new(eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web',             bundle_version),
   Repository.new(eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version),
-  Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,  'doc publish publish-static'),
+  Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,  'doc publish'),
   Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          nil,                                 bundle_version,  'test package smoke-test publish')
 ]
 
@@ -64,12 +64,12 @@ ALL_REPOS.each do |repo|
   if DRY_RUN
     puts "  Create Release branch " + args[:version] + ", " + args[:build_stamp] + ", " + args[:release_type] 
     puts "    using versions: " + versions
-    puts "  Building " + repo.name + " (s3.keys, publish.keys)"
+    puts "  Building " + repo.name + " (s3.keys)"
     puts "  Create tag " + repo.bundle_version
     puts "  Update Master branch " + args[:new_version]
   else
     repo.create_release_branch(args[:version], args[:build_stamp], args[:release_type], versions)
-    repo.build(args[:s3_keys], log_file, args[:publish_keys])
+    repo.build(args[:s3_keys], log_file)
     repo.create_tag
     repo.update_master_branch(args[:new_version], versions)
   end

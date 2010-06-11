@@ -71,18 +71,12 @@ class Repository
     execute('cd ' + @path + '; git commit --allow-empty -a -m "[RIPPLOR] Updated versions"')
   end
 
-  def build(s3_keys, log_file, publish_keys=nil)
+  def build(s3_keys, log_file)
     puts '  Building:'
     puts '    BUNDLE_VERSION: ' + @bundle_version
     puts '    TARGETS: ' + @targets
     
-    execute_command = 'ant -propertyfile ' + s3.keys
-    execute_command +=   ' -propertyfile ' + publish.keys if !publish_keys.nil?
-    execute_command +=   ' -f ' + @path + '/build-*/build.xml'
-    execute_command +=   ' -Dbundle.version=' + @bundle_version if publish_keys.nil?
-    execute_command +=' ' + @targets + ' >> ' + log_file
-    
-    execute(execute_command)
+    execute('ant -propertyfile ' + s3.keys + ' -f ' + @path + '/build-*/build.xml -Dbundle.version=' + @bundle_version + ' ' + @targets + ' >> ' + log_file)
   end
 
   def create_tag
