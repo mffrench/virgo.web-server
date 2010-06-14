@@ -39,6 +39,7 @@ local_repo_root = 'git@git.springsource.org:virgo/'
 eclipse_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/virgo/org.eclipse.virgo.'
 
 ALL_REPOS = [
+  Repository.new(eclipse_repo_root, 'osgi-test-stubs',     paths['osgi-test-stubs'],     'org.eclipse.virgo.teststubs',       bundle_version),
   Repository.new(eclipse_repo_root, 'osgi-extensions',     paths['osgi-extensions'],     'org.eclipse.virgo.osgi',            bundle_version),
   Repository.new(eclipse_repo_root, 'util',                paths['util'],                'org.eclipse.virgo.util',            bundle_version),
   Repository.new(eclipse_repo_root, 'test',                paths['test'],                'org.eclipse.virgo.test',            bundle_version),
