@@ -10,7 +10,7 @@
 	<target name="precommit" depends="clean, clean-integration, test, package, smoke-test"
 		description="Performs a CI server-like build, should be run prior to performing a Git push"/>
 
-	<target name="publish" depends="publish-package-eclipse, publish-multi-bundle.publish"/>
+	<!--<target name="publish" depends="publish-package-eclipse, publish-multi-bundle.publish"/> -->
 
 	<target name="package">
 		<delete dir="${package.output.dir}" quiet="true"/>

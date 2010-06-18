@@ -9,7 +9,7 @@ class Repository
   attr_reader :clone_command
   attr_reader :bundle_version
 
-  def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish', master_branch = 'master')
+  def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish', committerId = '', master_branch = 'master')
     if repo_root.nil?
       abort('Repository Git Root cannot be nil for repository ' + @name)
     end
@@ -38,6 +38,8 @@ class Repository
       abort('Repository master branch cannot be nil for repository ' + @name)
     end
     @master_branch = master_branch
+    
+    @committerId = committerId
     
     @clone_command = 'git clone -b ' + @master_branch + " " + @repo_root + @name + '.git ' + @path 
   end
@@ -76,7 +78,7 @@ class Repository
     puts '    BUNDLE_VERSION: ' + @bundle_version
     puts '    TARGETS: ' + @targets
     
-    execute('ant -propertyfile ' + s3_keys + ' -f ' + @path + '/build-*/build.xml -Dbundle.version=' + @bundle_version + ' ' + @targets + ' >> ' + log_file)
+    execute('ant -propertyfile ' + s3_keys + ' -f ' + @path + '/build-*/build.xml -DcommitterId=' + @committerId + ' -Dbundle.version=' + @bundle_version + ' ' + @targets + ' >> ' + log_file)
   end
 
   def create_tag
