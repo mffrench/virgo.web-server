@@ -8,6 +8,7 @@ class Repository
   attr_reader :targets
   attr_reader :clone_command
   attr_reader :bundle_version
+  attr_reader :path
 
   def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish', committerId = '', master_branch = 'master')
     if repo_root.nil?
@@ -51,7 +52,8 @@ class Repository
     tonull = " >&/dev/null"
     puts '  Checking out ' + @path
     execute(@clone_command + (quietly ? tonull : ""))
-    execute('cd ' + @path + '; git submodule update --init' + (quietly ? tonull : ""))
+    Dir.chdir(@path)
+    execute('git submodule update --init' + (quietly ? tonull : ""))
     if @bundle_version.nil? 
       create_new_bundle_version_from_properties
     end
@@ -68,7 +70,7 @@ class Repository
     puts '  Updating versions'
     versions.sort.reverse.each do |var_version|
       Version.update(var_version[0], var_version[1], @path, true)
-    end
+  end
 
     execute('cd ' + @path + '; git commit --allow-empty -a -m "[RIPPLOR] Updated versions"')
   end
@@ -110,7 +112,17 @@ class Repository
   def push(new_version=nil)
     new_version = @bundle_version if new_version.nil?
     puts 'Pushing ' + @name
-    execute('cd ' + @path + '; git push origin ' + new_version + ':' + @master_branch + ' --tags')
+    Dir.chdir(@path)
+    execute('git push origin ' + new_version + ':' + @master_branch + ' --tags')
+  end
+  
+  def update_virgo_build(new_version)
+    puts '  Updating to Virgo Build version \'' + new_version + '\''
+    Dir.chdir(path + "/virgo-build")
+    execute("git fetch --tags")
+    execute("git checkout " + new_version)
+    Dir.chdir(path)
+    execute('git commit --allow-empty -a -m "[UPDATE BUILDLOR] Updated Virgo Build to \'' + new_version + '\'"')
   end
 
 ########################################################################################################################

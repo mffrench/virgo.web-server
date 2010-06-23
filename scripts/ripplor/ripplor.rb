@@ -75,6 +75,9 @@ repos.each do |repo|
   puts 'Rippling ' + repo.name
   puts '  checkout with "' + repo.clone_command + '"' if DRY_RUN
   repo.checkout if !DRY_RUN
+  if !args[:build_version].nil?
+    repo.update_virgo_build(args[:build_version]) if !DRY_RUN
+  end
   puts '  update_versions ...' if DRY_RUN
   repo.update_versions(versions) if !DRY_RUN
   puts '  build with KEYS: ' + args[:s3_keys] + ' and TARGETS: ' + repo.targets if DRY_RUN

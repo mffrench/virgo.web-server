@@ -34,6 +34,13 @@ Choice.options do
   separator('')
   separator('Optional arguments:')
 
+  option :build_version, :required => false do
+    short('-b')
+    long('--virgo-build-version=VIRGO-BUILD-VERSION')
+    validate(/\d(.\d(.\d(.([\w_-])+)?)?)?/)
+    desc('The version to update Virgo Build to')
+  end
+
   option :repository_map, :required => false do
     short('-m')
     long('--map=REPOSITORY-MAP')

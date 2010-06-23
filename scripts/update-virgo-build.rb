@@ -19,9 +19,7 @@ Choice.options do
   
 end
 
-newVersion = Choice.choices[:new_version]
-
-puts 'Updating to Virgo-Build version \'' + newVersion + '\''
+puts 'Updating to Virgo-Build version \'' + Choice.choices[:new_version] + '\''
 
 def execute(command)
   output = `#{command}`
@@ -31,11 +29,13 @@ def execute(command)
   output
 end
 
-execute("git submodule update --init")
-Dir.chdir("virgo-build")
-execute("git fetch --tags")
-execute("git checkout " + newVersion)
-Dir.chdir("..")
+def do_update(path, newVersion)
+  Dir.chdir(path)
+  execute("git submodule update --init")
+  Dir.chdir("virgo-build")
+  execute("git fetch --tags")
+  execute("git checkout " + newVersion)
+  Dir.chdir("..")
+end
 
-
-
+do_update(Dir.pwd, Choice.choices[:new_version])
