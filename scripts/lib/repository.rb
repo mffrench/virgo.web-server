@@ -75,12 +75,12 @@ class Repository
     execute('cd ' + @path + '; git commit --allow-empty -a -m "[RIPPLOR] Updated versions"')
   end
 
-  def build(s3_keys, log_file)
+  def build(s3_keys, eclipse_keys, log_file)
     puts '  Building:'
     puts '    BUNDLE_VERSION: ' + @bundle_version
     puts '    TARGETS: ' + @targets
     
-    execute('ant -propertyfile ' + s3_keys + ' -f ' + @path + '/build-*/build.xml -DcommitterId=' + @committerId + ' -Dbundle.version=' + @bundle_version + ' ' + @targets + ' >> ' + log_file)
+    execute('ant -propertyfile ' + s3_keys + ' -propertyfile ' + eclipse_keys + ' -f ' + @path + '/build-*/build.xml -DcommitterId=' + @committerId + ' -Dbundle.version=' + @bundle_version + ' ' + @targets + ' >> ' + log_file)
   end
 
   def create_tag

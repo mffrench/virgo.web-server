@@ -81,7 +81,7 @@ repos.each do |repo|
   puts '  update_versions ...' if DRY_RUN
   repo.update_versions(versions) if !DRY_RUN
   puts '  build with KEYS: ' + args[:s3_keys] + ' and TARGETS: ' + repo.targets if DRY_RUN
-  repo.build(args[:s3_keys], log_file) if !DRY_RUN
+  repo.build(args[:s3_keys], args[:eclipse_build_keys], log_file) if !DRY_RUN
   versions.merge!(repo.versions) if !DRY_RUN
 end
   

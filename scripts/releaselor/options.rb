@@ -49,6 +49,14 @@ Choice.options do
     desc('(defaults to ~/repository.map)')
   end
 
+  option :eclipse_build_keys, :required => false do
+    short('-e')
+    long('--eclipse-build-keys=ECLIPSE_BUILD_KEYS')
+    default('~/eclipse.build.key')
+    desc('The property file containing the keys used for publishing to eclipse build')
+    desc('(defaults to ~/s3.properties)')
+  end
+  
   option :s3_keys, :required => false do
     short('-s')
     long('--s3-keys=S3-KEYS')
