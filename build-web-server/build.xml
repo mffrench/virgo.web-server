@@ -10,23 +10,41 @@
 	<target name="precommit" depends="clean, clean-integration, test, package, smoke-test"
 		description="Performs a CI server-like build, should be run prior to performing a Git push"/>
 
-	<target name="package">
+	<target name="fetch-kernel">
+		<mkdir dir="${target.dir}"/>
+		
+		<scp remoteFile="virgoBuild@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
+				todir="${target.dir}" 
+				keyfile="${key.file}"
+				passphrase="${passphrase}"
+				failonerror="false" />
+		
+		<get src="http://${zodiac.basename}.s3.amazonaws.com/zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
+				dest="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" 
+				usetimestamp="true" 
+				ignoreerrors="true"/>
+		
+		<available file="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" property="kernel.obtained"/>
+		
+		<fail message="Failed to get the Kernel zip" >
+			<condition>
+				<isfalse value="${kernel.obtained}"/>
+			</condition>
+		</fail>
+
+		<echo message="Fetched the Kernel zip to ${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"/>
+	</target>
+
+	<target name="package" depends="fetch-kernel">
 		<delete dir="${package.output.dir}" quiet="true"/>
 		<mkdir dir="${package.output.dir}"/>
 
-		<property name="kernel.stage.file" value="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"/>
+		<property name="kernel.stage.file" value=""/>
 		<property name="repository.dir" value="${package.output.dir}/repository"/>
 		<property name="repository.ext" value="${repository.dir}/ext"/>
 		<property name="repository.usr" value="${repository.dir}/usr"/>
 
-		<!--<get src="http://${zodiac.basename}.s3.amazonaws.com/zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
-				dest="${kernel.stage.file}" verbose="true" usetimestamp="true"/>-->
-
-		<scp remoteFile="virgoBuild@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
-				todir="${target.dir}" 
-				password="${eclipse.buildKey}" />
-
-		<unzip src="${kernel.stage.file}" dest="${package.output.dir}">
+		<unzip src="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" dest="${package.output.dir}">
 			<globmapper from="virgo-kernel-${org.eclipse.virgo.kernel}/*" to="*"/>
 		</unzip>
 		
