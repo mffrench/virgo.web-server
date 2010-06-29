@@ -76,7 +76,7 @@ ALL_REPOS.each do |repo|
     if !args[:build_version].nil?
       repo.update_virgo_build(args[:build_version]) if !DRY_RUN
     end
-    repo.build(args[:s3_keys], args[:eclipse_build_keys], log_file)
+    repo.build(args[:s3_keys], log_file)
     repo.create_tag
     repo.update_master_branch(args[:new_version], accumulate_versions)
   end

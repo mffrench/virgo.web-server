@@ -48,14 +48,6 @@ Choice.options do
     desc('The property file containing a mapping from a repository name to a location')
     desc('(defaults to ~/repository.map)')
   end
-
-  option :eclipse_build_keys, :required => false do
-    short('-e')
-    long('--eclipse-build-keys=ECLIPSE_BUILD_KEYS')
-    default('~/eclipse.build.key')
-    desc('The property file containing the keys used for publishing to eclipse build')
-    desc('(defaults to ~/eclipse.build.key)')
-  end
   
   option :s3_keys, :required => false do
     short('-s')

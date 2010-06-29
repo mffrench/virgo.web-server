@@ -19,8 +19,8 @@
 		<property name="repository.ext" value="${repository.dir}/ext"/>
 		<property name="repository.usr" value="${repository.dir}/usr"/>
 
-		<!--<get src=" /zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
-				dest="${kernel.stage.file}" verbose="true" usetimestamp="true"/> -->
+		<!--<get src="http://${zodiac.basename}.s3.amazonaws.com/zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
+				dest="${kernel.stage.file}" verbose="true" usetimestamp="true"/>-->
 
 		<scp remoteFile="virgoBuild@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
 				todir="${target.dir}" 
