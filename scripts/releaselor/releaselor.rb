@@ -63,11 +63,11 @@ ALL_REPOS.each do |repo|
   repo.checkout(true)
   if DRY_RUN
     puts "  Create Release branch " + args[:version] + ", " + args[:build_stamp] + ", " + args[:release_type] 
+    puts "    using versions: "
+    accumulate_versions.sort.each {|keyval| puts "      " + keyval[0] + " = " + keyval[1]}
     if !args[:build_version].nil?
       puts '  updating Virgo Build to \'' + args[:build_version] + '\''
     end
-    puts "    using versions: "
-    accumulate_versions.sort.each {|keyval| puts "      " + keyval[0] + " = " + keyval[1]}
     puts "  Building " + repo.name + " (s3.keys)"
     puts "  Create tag " + repo.bundle_version
     puts "  Update Master branch " + args[:new_version]
