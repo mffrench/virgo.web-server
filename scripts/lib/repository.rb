@@ -85,7 +85,8 @@ class Repository
 
   def create_tag
     puts '    Creating tag ' + @bundle_version
-    execute('cd ' + @path + '; git tag -a -m "[RELEASELOR] ' + @bundle_version +'" ' + @bundle_version)
+    Dir.chdir(@path)
+    execute('git tag -a -m "[RELEASELOR] ' + @bundle_version +'" ' + @bundle_version)
   end
 
   def update_master_branch(new_version, versions)
@@ -118,10 +119,12 @@ class Repository
   
   def update_virgo_build(new_version)
     puts '  Updating to Virgo Build version \'' + new_version + '\''
-    Dir.chdir(path + "/virgo-build")
+    Dir.chdir(@path + "/virgo-build")
+    execute("git checkout master")
+    execute("git pull origin master")
     execute("git fetch --tags")
     execute("git checkout " + new_version)
-    Dir.chdir(path)
+    Dir.chdir(@path)
     execute('git commit --allow-empty -a -m "[UPDATE BUILDLOR] Updated Virgo Build to \'' + new_version + '\'"')
   end
 

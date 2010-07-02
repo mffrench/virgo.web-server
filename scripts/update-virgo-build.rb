@@ -29,13 +29,18 @@ def execute(command)
   output
 end
 
-def do_update(path, newVersion)
+def do_update(path, new_version)
+  puts '  Updating to Virgo Build version \'' + new_version + '\''
   Dir.chdir(path)
   execute("git submodule update --init")
-  Dir.chdir("virgo-build")
+  Dir.chdir(path + "/virgo-build")
+  execute("git checkout master")
+  execute("git pull origin master")
   execute("git fetch --tags")
-  execute("git checkout " + newVersion)
-  Dir.chdir("..")
+  execute("git checkout " + new_version)
+  Dir.chdir(path)
+  execute('git commit --allow-empty -a -m "[UPDATE BUILDLOR] Updated Virgo Build to \'' + new_version + '\'"')
 end
 
 do_update(Dir.pwd, Choice.choices[:new_version])
+

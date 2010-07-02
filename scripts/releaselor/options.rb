@@ -10,25 +10,25 @@ Choice.options do
   option :version, :required => true do
     short('-v')
     long('--version=VERSION')
-    desc('The version number for the release')
+    desc('The version number of the release')
   end
 
   option :build_stamp, :required => true do
     short('-s')
     long('--build-stamp=BUILD-STAMP')
-    desc('The build stamp for the release')
+    desc('The build stamp for the release, e.g. M01, RELEASE')
   end
 
   option :release_type, :required => true do
     short('-t')
     long('--release-type=RELEASE-TYPE')
-    desc('The release type for the release')
+    desc('The release type for the release, e.g. milestone, release')
   end
 
   option :new_version, :required => true do
     short('-n')
     long('--new-version=NEW-VERSION')
-    desc('The new version number for the release')
+    desc('The new version number to be used after the release')
   end
 
   separator('')
