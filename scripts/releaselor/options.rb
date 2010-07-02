@@ -14,7 +14,7 @@ Choice.options do
   end
 
   option :build_stamp, :required => true do
-    short('-s')
+    short('-q')
     long('--build-stamp=BUILD-STAMP')
     desc('The build stamp for the release, e.g. M01, RELEASE')
   end
