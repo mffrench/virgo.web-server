@@ -70,8 +70,7 @@ class Repository
     puts '  Updating versions'
     versions.sort.reverse.each do |var_version|
       Version.update(var_version[0], var_version[1], @path, true)
-  end
-
+    end
     execute('cd ' + @path + '; git commit --allow-empty -a -m "[RIPPLOR] Updated versions"')
   end
 
