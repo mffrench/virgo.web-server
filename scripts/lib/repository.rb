@@ -123,7 +123,7 @@ class Repository
     execute("git checkout master")
     execute("git pull origin master")
     execute("git fetch --tags")
-    execute("git checkout " + new_version)
+    execute("git checkout -q " + new_version)
     Dir.chdir(@path)
     execute('git commit --allow-empty -a -m "[UPDATE BUILDLOR] Updated Virgo Build to \'' + new_version + '\'"')
   end
