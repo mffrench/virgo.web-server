@@ -120,10 +120,9 @@ class Repository
   def update_virgo_build(new_version)
     puts '  Updating to Virgo Build version \'' + new_version + '\''
     Dir.chdir(@path + "/virgo-build")
-    execute("git checkout master")
-    execute("git pull origin master")
+    execute("git pull origin master:master ")
     execute("git fetch --tags")
-    execute("git checkout -q " + new_version)
+    execute("git checkout " + new_version)
     Dir.chdir(@path)
     execute('git commit --allow-empty -a -m "[UPDATE BUILDLOR] Updated Virgo Build to \'' + new_version + '\'"')
   end
