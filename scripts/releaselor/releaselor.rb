@@ -49,7 +49,7 @@ ALL_REPOS = [
   Repository.new(eclipse_repo_root, 'kernel-tools',        paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',    bundle_version),
   Repository.new(eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web',             bundle_version),
   Repository.new(eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version),
-  Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,  'doc publish publish-eclipse publish-package-eclipse-download', args[:remote_user]),
+  Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,  'doc package publish publish-eclipse publish-package-eclipse-download', args[:remote_user]),
   Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          nil,                                 bundle_version,  'test package smoke-test publish publish-eclipse publish-package-eclipse-build publish-package-amazon publish-package-eclipse-download', args[:remote_user])
 ]
 
