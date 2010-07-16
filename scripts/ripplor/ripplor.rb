@@ -48,7 +48,7 @@ ALL_REPOS = [
   Repository.new(eclipse_repo_root, 'kernel-tools',        paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools'),
   Repository.new(eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web'),
   Repository.new(eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps'),
-  Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation', nil, 'clean clean-integration doc publish publish-eclipse'),
+  Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation', nil, 'clean clean-integration doc-html publish publish-eclipse'),
   Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          nil, nil,                               'clean clean-integration test package smoke-test publish publish-eclipse publish-package-amazon publish-package-eclipse-build')
 ]
 
