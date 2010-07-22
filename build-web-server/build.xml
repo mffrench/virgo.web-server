@@ -13,11 +13,10 @@
 	<target name="fetch-kernel">
 		<mkdir dir="${target.dir}"/>
 		
-		<scp remoteFile="virgoBuild@build.eclipse.org:/opt/public/rt/virgo/zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
-				todir="${target.dir}" 
-				keyfile="${key.file}"
-				passphrase="${passphrase}"
-				failonerror="false" />
+		<get src="http://build.eclipse.org/rt/virgo/zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
+				dest="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" 
+				usetimestamp="true" 
+				ignoreerrors="true"/>
 		
 		<get src="http://${zodiac.basename}.s3.amazonaws.com/zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
 				dest="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" 
