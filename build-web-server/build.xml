@@ -13,12 +13,16 @@
 	<target name="fetch-kernel">
 		<mkdir dir="${target.dir}"/>
 		
-		<get src="http://build.eclipse.org/rt/virgo/zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
+		<condition property="dependancy.folder" value="milestone" else="${adjusted.release.type}">
+			<contains string="${org.eclipse.virgo.kernel}" substring=".M"/>
+		</condition>
+		
+		<get src="http://build.eclipse.org/rt/virgo/zips/${dependancy.folder}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
 				dest="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" 
 				usetimestamp="true" 
 				ignoreerrors="true"/>
 		
-		<get src="http://${zodiac.basename}.s3.amazonaws.com/zips/${adjusted.release.type}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
+		<get src="http://${zodiac.basename}.s3.amazonaws.com/zips/${dependancy.folder}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
 				dest="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" 
 				usetimestamp="true" 
 				ignoreerrors="true"/>
