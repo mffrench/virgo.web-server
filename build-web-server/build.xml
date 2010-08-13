@@ -17,6 +17,10 @@
 			<contains string="${org.eclipse.virgo.kernel}" substring=".M"/>
 		</condition>
 		
+		<condition property="dependancy.folder" value="release" else="${adjusted.release.type}">
+			<contains string="${org.eclipse.virgo.kernel}" substring=".RELEASE"/>
+		</condition>
+		
 		<get src="http://build.eclipse.org/rt/virgo/zips/${dependancy.folder}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
 				dest="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" 
 				usetimestamp="true" 
