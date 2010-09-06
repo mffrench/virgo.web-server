@@ -31,7 +31,7 @@ class Version
             changed = false
             encountered = false
             lines.each do |line|
-              if line =~ /#{variable}[^.0-9A-Za-z]/
+              if line =~ /#{variable}[^0-9A-Za-z]/
                 encountered = true if line =~ /([0-9]+\.[0-9]+(\.[0-9]+(\.[0-9A-Za-z_\-]+)?)?)/
                 changed = true if line.gsub!(/#{existing_version}/, version)
               end
