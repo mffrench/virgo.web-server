@@ -4,6 +4,7 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 require 'rubygems'
 require 'choice'
 require 'lib/version'
+require 'fileutils'
 
 Choice.options do
 
