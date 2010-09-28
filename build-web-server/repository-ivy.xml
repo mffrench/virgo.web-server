@@ -59,6 +59,7 @@
 		<exclude org="org.apache.commons" module="com.springsource.org.apache.commons.logging"/>
 		<exclude org="org.eclipse.osgi" module="org.eclipse.osgi"/>
 		<exclude org="org.eclipse.virgo.util"/>
+		<exclude org="javax.xml.ws"/>
 		
 		<override org="org.springframework" rev="${org.springframework}"/>
 	</dependencies>
