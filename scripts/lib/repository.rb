@@ -10,7 +10,7 @@ class Repository
   attr_reader :bundle_version
   attr_reader :path
 
-  def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish publish-eclipse', committerId = '', master_branch = 'master')
+  def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish publish-eclipse', committerId = '', master_branch = '2.1.x')
     if repo_root.nil?
       abort('Repository Git Root cannot be nil for repository ' + @name)
     end
