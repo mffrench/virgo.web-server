@@ -64,6 +64,13 @@ Choice.options do
    desc('User id to use for remote repository access')
    desc('(defaults to local login id)')
   end
+
+  option :product_release, :required => false do
+    short('-r')
+    long('--product-release=PRODUCT')
+    desc('The product to be released, kernel or web-server')
+    desc('(defaults to releasing all repos)')
+  end
    
   option :dryrun?, :required => false do
    long('--dry-run')

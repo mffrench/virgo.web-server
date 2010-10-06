@@ -38,20 +38,45 @@ end
 local_repo_root = 'git@git.springsource.org:virgo/'
 eclipse_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/virgo/org.eclipse.virgo.'
 
-ALL_REPOS = [
-  Repository.new(eclipse_repo_root, 'osgi-test-stubs',     paths['osgi-test-stubs'],     'org.eclipse.virgo.teststubs',       bundle_version),
-  Repository.new(eclipse_repo_root, 'osgi-extensions',     paths['osgi-extensions'],     'org.eclipse.virgo.osgi',            bundle_version),
-  Repository.new(eclipse_repo_root, 'util',                paths['util'],                'org.eclipse.virgo.util',            bundle_version),
-  Repository.new(eclipse_repo_root, 'test',                paths['test'],                'org.eclipse.virgo.test',            bundle_version),
-  Repository.new(eclipse_repo_root, 'medic',               paths['medic'],               'org.eclipse.virgo.medic',           bundle_version),
-  Repository.new(eclipse_repo_root, 'artifact-repository', paths['artifact-repository'], 'org.eclipse.virgo.repository',      bundle_version),
-  Repository.new(eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version,  'test package publish publish-eclipse publish-package-eclipse-build publish-package-amazon publish-package-eclipse-download', args[:remote_user]),
-  Repository.new(eclipse_repo_root, 'kernel-tools',        paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',    bundle_version),
-  Repository.new(eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web',             bundle_version),
-  Repository.new(eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version),
-  Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,  'doc-html package publish publish-eclipse publish-package-eclipse-download', args[:remote_user]),
-  Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          nil,                                 bundle_version,  'test package smoke-test publish publish-eclipse publish-package-eclipse-build publish-package-amazon publish-package-eclipse-download', args[:remote_user])
-]
+if args[:product_release] == 'kernel' 
+
+  ALL_REPOS = [
+    Repository.new(eclipse_repo_root, 'osgi-test-stubs',     paths['osgi-test-stubs'],     'org.eclipse.virgo.teststubs',       bundle_version),
+    Repository.new(eclipse_repo_root, 'osgi-extensions',     paths['osgi-extensions'],     'org.eclipse.virgo.osgi',            bundle_version),
+    Repository.new(eclipse_repo_root, 'util',                paths['util'],                'org.eclipse.virgo.util',            bundle_version),
+    Repository.new(eclipse_repo_root, 'test',                paths['test'],                'org.eclipse.virgo.test',            bundle_version),
+    Repository.new(eclipse_repo_root, 'medic',               paths['medic'],               'org.eclipse.virgo.medic',           bundle_version),
+    Repository.new(eclipse_repo_root, 'artifact-repository', paths['artifact-repository'], 'org.eclipse.virgo.repository',      bundle_version),
+    Repository.new(eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version,  'test package publish publish-eclipse publish-package-eclipse-build publish-package-amazon publish-package-eclipse-download', args[:remote_user])
+  ]
+
+elsif args[:product_release] == 'web-server' 
+  
+  ALL_REPOS = [
+    Repository.new(eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web',             bundle_version),
+    Repository.new(eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version),
+    Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,  'doc-html package publish publish-eclipse publish-package-eclipse-download', args[:remote_user]),
+    Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          nil,                                 bundle_version,  'test package smoke-test publish publish-eclipse publish-package-eclipse-build publish-package-amazon publish-package-eclipse-download', args[:remote_user])
+  ]
+  
+else
+  
+  ALL_REPOS = [
+    Repository.new(eclipse_repo_root, 'osgi-test-stubs',     paths['osgi-test-stubs'],     'org.eclipse.virgo.teststubs',       bundle_version),
+    Repository.new(eclipse_repo_root, 'osgi-extensions',     paths['osgi-extensions'],     'org.eclipse.virgo.osgi',            bundle_version),
+    Repository.new(eclipse_repo_root, 'util',                paths['util'],                'org.eclipse.virgo.util',            bundle_version),
+    Repository.new(eclipse_repo_root, 'test',                paths['test'],                'org.eclipse.virgo.test',            bundle_version),
+    Repository.new(eclipse_repo_root, 'medic',               paths['medic'],               'org.eclipse.virgo.medic',           bundle_version),
+    Repository.new(eclipse_repo_root, 'artifact-repository', paths['artifact-repository'], 'org.eclipse.virgo.repository',      bundle_version),
+    Repository.new(eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version,  'test package publish publish-eclipse publish-package-eclipse-build publish-package-amazon publish-package-eclipse-download', args[:remote_user]),
+    Repository.new(eclipse_repo_root, 'kernel-tools',        paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',    bundle_version),
+    Repository.new(eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web',             bundle_version),
+    Repository.new(eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version),
+    Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,  'doc-html package publish publish-eclipse publish-package-eclipse-download', args[:remote_user]),
+    Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          nil,                                 bundle_version,  'test package smoke-test publish publish-eclipse publish-package-eclipse-build publish-package-amazon publish-package-eclipse-download', args[:remote_user])
+  ]
+  
+end
 
 log_file=File.expand_path('./release.log')
 start_time = Time.new
