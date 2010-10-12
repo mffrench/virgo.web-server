@@ -1,10 +1,10 @@
 org.eclipse.virgo.osgi=2.2.0.D-20101005104610
-org.eclipse.virgo.medic=2.2.0.D-20101005105455
-org.eclipse.virgo.kernel=2.2.0.D-20101005110355
-org.eclipse.virgo.repository=2.2.0.D-20101005105942
-org.eclipse.virgo.documentation=2.2.0.D-20101005120306
-org.eclipse.virgo.apps=2.2.0.D-20101005115002
-org.eclipse.virgo.web=2.2.0.D-20101005113142
+org.eclipse.virgo.medic=2.2.0.D-20101012102422
+org.eclipse.virgo.kernel=2.2.0.D-20101012103404
+org.eclipse.virgo.repository=2.2.0.D-20101012103019
+org.eclipse.virgo.documentation=2.2.0.D-20101012113042
+org.eclipse.virgo.apps=2.2.0.D-20101012111848
+org.eclipse.virgo.web=2.2.0.D-20101012110147
 org.eclipse.virgo.util=2.2.0.D-20101005104833
 javax.ejb=3.0.0
 javax.jms=1.1.0
