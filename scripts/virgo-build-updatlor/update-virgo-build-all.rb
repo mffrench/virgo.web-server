@@ -42,32 +42,26 @@ else
   }
 end
 
+#def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish publish-eclipse', committerId = '', master_branch = '2.1.x')
+
 local_repo_root = 'git@git.springsource.org:virgo/'
 virgo_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/virgo/org.eclipse.virgo.'
 gemini_web_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/gemini.web/org.eclipse.gemini.web.'
 
 ALL_REPOS = [
-  Repository.new(virgo_repo_root, 'sample-greenpages',                     paths['sample-greenpages'], nil),
-  Repository.new(virgo_repo_root, 'sample-configuration-properties',       paths['sample-configuration-properties'], nil),
-  Repository.new(virgo_repo_root, 'sample-formtags',                       paths['sample-formtags'], nil), 
-  Repository.new(virgo_repo_root, 'sample-osgi-examples',                  paths['sample-osgi-examples'], nil),
-  Repository.new(virgo_repo_root, 'web-server',                            paths['web-server'], nil),
-  Repository.new(virgo_repo_root, 'documentation',                         paths['documentation'], nil),
-  Repository.new(virgo_repo_root, 'apps',                                  paths['apps'], nil),
-  Repository.new(virgo_repo_root, 'snaps',                                 paths['snaps'], nil),
-  Repository.new(virgo_repo_root, 'web',                                   paths['web'], nil),
-  Repository.new(virgo_repo_root, 'kernel',                                paths['kernel'], nil),
-  Repository.new(virgo_repo_root, 'artifact-repository',                   paths['artifact-repository'], nil),
-  Repository.new(virgo_repo_root, 'medic',                                 paths['medic'], nil),
-  Repository.new(virgo_repo_root, 'test',                                  paths['test'], nil),
-  Repository.new(virgo_repo_root, 'util',                                  paths['util'], nil),
-  Repository.new(virgo_repo_root, 'osgi-extensions',                       paths['osgi-extensions'], nil),
-  Repository.new(virgo_repo_root, 'osgi-test-stubs',                       paths['osgi-test-stubs'], nil),
-  Repository.new(virgo_repo_root, 'performance-test',                      paths['performance-test'], nil),
-  Repository.new(virgo_repo_root, 'system-verification-tests',             paths['system-verification-tests'], nil),
-  Repository.new(virgo_repo_root, 'kernel-system-verification-tests',      paths['kernel-system-verification-tests'], nil),
-  Repository.new(virgo_repo_root, 'kernel-tools',                          paths['kernel-tools'], nil),
-  Repository.new(gemini_web_repo_root, 'gemini-web-container',             paths['gemini-web-container'], nil)
+  Repository.new(virgo_repo_root, 'web-server',                            paths['web-server'], nil, "2.1.x"),
+  Repository.new(virgo_repo_root, 'documentation',                         paths['documentation'], nil, "2.1.x"),
+  Repository.new(virgo_repo_root, 'apps',                                  paths['apps'], nil, "2.1.x"),
+  Repository.new(virgo_repo_root, 'web',                                   paths['web'], nil, "2.1.x"),
+  Repository.new(virgo_repo_root, 'kernel',                                paths['kernel'], nil, "2.1.x"),
+  Repository.new(virgo_repo_root, 'artifact-repository',                   paths['artifact-repository'], nil, "2.1.x"),
+  Repository.new(virgo_repo_root, 'medic',                                 paths['medic'], nil, "2.1.x"),
+  Repository.new(virgo_repo_root, 'test',                                  paths['test'], nil, "2.1.x"),
+  Repository.new(virgo_repo_root, 'util',                                  paths['util'], nil, "2.1.x"),
+  Repository.new(virgo_repo_root, 'osgi-extensions',                       paths['osgi-extensions'], nil, "2.1.x"),
+  Repository.new(virgo_repo_root, 'osgi-test-stubs',                       paths['osgi-test-stubs'], nil, "2.1.x"),
+  Repository.new(virgo_repo_root, 'kernel-tools',                          paths['kernel-tools'], nil, "2.1.x"),
+  Repository.new(gemini_web_repo_root, 'gemini-web-container',             paths['gemini-web-container'], nil, "1.1.x", 'dummytarget', nil, "1.1.x")
 ]
 
 start_time = Time.new
