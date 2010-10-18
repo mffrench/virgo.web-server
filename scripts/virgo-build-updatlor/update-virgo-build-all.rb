@@ -42,6 +42,8 @@ else
   }
 end
 
+#def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish publish-eclipse', committerId = '', master_branch = 'master')
+
 local_repo_root = 'git@git.springsource.org:virgo/'
 virgo_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/virgo/org.eclipse.virgo.'
 gemini_web_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/gemini.web/org.eclipse.gemini.web.'
@@ -86,7 +88,7 @@ print 'Do you want to push? (y/n) '
 commit_ok = STDIN.gets.chomp
 if commit_ok =~ /y.*/
   ALL_REPOS.each do |repo|
-    repo.push
+    repo.push("master")
   end
 end
 

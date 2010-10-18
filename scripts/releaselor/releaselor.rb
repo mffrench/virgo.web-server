@@ -33,7 +33,7 @@ else
   }
 end
 
-#def initialize(repo_root, name, path, variable, bundle_version=nil, targets = 'clean clean-integration test publish', master_branch = 'master')
+#def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish publish-eclipse', committerId = '', master_branch = 'master')
 
 local_repo_root = 'git@git.springsource.org:virgo/'
 eclipse_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/virgo/org.eclipse.virgo.'
