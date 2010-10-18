@@ -26,6 +26,7 @@ else
     'kernel' => 'kernel',
     'kernel-tools' => 'kernel-tools',
     'web' => 'web',
+    'snaps' => 'snaps',
     'apps' => 'apps',
     'documentation' => 'documentation',
     'web-server' => 'web-server',
@@ -53,6 +54,7 @@ ALL_REPOS = [
   Repository.new(virgo_repo_root, 'web-server',                            paths['web-server'], nil),
   Repository.new(virgo_repo_root, 'documentation',                         paths['documentation'], nil),
   Repository.new(virgo_repo_root, 'apps',                                  paths['apps'], nil),
+  Repository.new(virgo_repo_root, 'snaps',                                 paths['snaps'], nil),
   Repository.new(virgo_repo_root, 'web',                                   paths['web'], nil),
   Repository.new(virgo_repo_root, 'kernel',                                paths['kernel'], nil),
   Repository.new(virgo_repo_root, 'artifact-repository',                   paths['artifact-repository'], nil),
@@ -84,7 +86,7 @@ print 'Do you want to push? (y/n) '
 commit_ok = STDIN.gets.chomp
 if commit_ok =~ /y.*/
   ALL_REPOS.each do |repo|
-    repo.push('master')
+    repo.push
   end
 end
 
