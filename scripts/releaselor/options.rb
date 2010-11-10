@@ -66,10 +66,16 @@ Choice.options do
   end
 
   option :product_release, :required => false do
-    short('-r')
-    long('--product-release=PRODUCT')
-    desc('The product to be released, kernel or web-server')
-    desc('(defaults to releasing all repos)')
+   short('-r')
+   long('--product-release=PRODUCT')
+   desc('The product to be released, kernel, web-server, full-product')
+   desc('(defaults to releasing all repos)')
+  end
+
+  option :gemini_version, :required => false do
+    short('-g')
+    long('--gemini-version=GEMINI-BUILD-VERSION')
+    desc('When producing a full-product build the gemini version must be given')
   end
    
   option :dryrun?, :required => false do
