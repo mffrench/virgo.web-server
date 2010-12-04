@@ -23,21 +23,7 @@
 		
 		<get src="http://build.eclipse.org/rt/virgo/zips/${dependancy.folder}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
 				dest="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" 
-				usetimestamp="true" 
-				ignoreerrors="true"/>
-		
-		<get src="http://${zodiac.basename}.s3.amazonaws.com/zips/${dependancy.folder}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
-				dest="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" 
-				usetimestamp="true" 
-				ignoreerrors="true"/>
-		
-		<available file="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" property="kernel.obtained"/>
-		
-		<fail message="Failed to get the Kernel zip" >
-			<condition>
-				<isfalse value="${kernel.obtained}"/>
-			</condition>
-		</fail>
+				usetimestamp="true" />
 
 		<echo message="Fetched the Kernel zip to ${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"/>
 	</target>
