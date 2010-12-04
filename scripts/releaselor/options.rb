@@ -48,14 +48,6 @@ Choice.options do
     desc('The property file containing a mapping from a repository name to a location')
     desc('(defaults to ~/repository.map)')
   end
-  
-  option :s3_keys, :required => false do
-    short('-s')
-    long('--s3-keys=S3-KEYS')
-    default('~/s3.properties')
-    desc('The property file containing the S3 keys used for publishing')
-    desc('(defaults to ~/s3.properties)')
-  end
 
   option :remote_user, :required => false do
    short('-u')

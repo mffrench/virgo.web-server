@@ -10,7 +10,7 @@ class Repository
   attr_reader :bundle_version
   attr_reader :path
 
-  def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish publish-eclipse', committerId = '', master_branch = 'master')
+  def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish', master_branch = 'master')
     if repo_root.nil?
       abort('Repository Git Root cannot be nil for repository ' + @name)
     end
@@ -74,12 +74,12 @@ class Repository
     execute('cd ' + @path + '; git commit --allow-empty -a -m "[RIPPLOR] Updated versions"')
   end
 
-  def build(s3_keys, log_file)
+  def build(committerId, log_file)
     puts '  Building:'
     puts '    BUNDLE_VERSION: ' + @bundle_version
     puts '    TARGETS: ' + @targets
     
-    execute('ant -propertyfile ' + s3_keys + ' -f ' + @path + '/build-*/build.xml -Declipse.committerId=' + @committerId + ' -Dbundle.version=' + @bundle_version + ' ' + @targets + ' >> ' + log_file)
+    execute('ant -f ' + @path + '/build-*/build.xml -Declipse.committerId=' + committerId + ' -Dbundle.version=' + @bundle_version + ' ' + @targets + ' >> ' + log_file)
   end
 
   def create_tag
