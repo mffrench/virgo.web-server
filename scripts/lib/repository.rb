@@ -40,8 +40,6 @@ class Repository
     end
     @master_branch = master_branch
     
-    @committerId = committerId
-    
     @clone_command = 'git clone -b ' + @master_branch + " " + @repo_root + @name + '.git ' + @path 
   end
 
