@@ -28,7 +28,8 @@ else
     'web' => 'web',
     'apps' => 'apps',
     'documentation' => 'documentation',
-    'web-server' => 'web-server'
+    'web-server' => 'web-server',
+    'jetty-server' => 'jetty-server'
   }
 end
 
@@ -44,12 +45,13 @@ ALL_REPOS = [
   Repository.new(eclipse_repo_root, 'test',                paths['test'],                'org.eclipse.virgo.test'),
   Repository.new(eclipse_repo_root, 'medic',               paths['medic'],               'org.eclipse.virgo.medic'),
   Repository.new(eclipse_repo_root, 'artifact-repository', paths['artifact-repository'], 'org.eclipse.virgo.repository'),
-  Repository.new(eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel', nil,        'test package smoke-test publish publish-package-build'),
+  Repository.new(eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',        nil, 'test package smoke-test publish publish-package-build'),
   Repository.new(eclipse_repo_root, 'kernel-tools',        paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools'),
   Repository.new(eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web'),
   Repository.new(eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps'),
   Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation', nil, 'clean clean-integration doc-html publish'),
-  Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          nil, nil,                               'clean clean-integration test package smoke-test publish publish-package-build')
+  Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',    nil, 'clean clean-integration test package smoke-test publish publish-package-build'),
+  Repository.new(eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',  nil, 'clean clean-integration jar package')
 ]
 
 repos = Array.new
