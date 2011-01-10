@@ -49,10 +49,10 @@ local_repo_root = 'git@git.springsource.org:virgo/'
 virgo_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/virgo/org.eclipse.virgo.'
 gemini_web_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/gemini.web/org.eclipse.gemini.web.'
 
-ALL_REPOS = [
+VIRGO_PERMISSION_REPOS = [
   Repository.new(virgo_repo_root, 'sample-greenpages',                     paths['sample-greenpages'], nil),
   Repository.new(virgo_repo_root, 'sample-configuration-properties',       paths['sample-configuration-properties'], nil),
-  Repository.new(virgo_repo_root, 'sample-formtags',                       paths['sample-formtags'], nil), 
+  Repository.new(virgo_repo_root, 'sample-formtags',                       paths['sample-formtags'], nil),
   Repository.new(virgo_repo_root, 'sample-osgi-examples',                  paths['sample-osgi-examples'], nil),
   Repository.new(virgo_repo_root, 'web-server',                            paths['web-server'], nil),
   Repository.new(virgo_repo_root, 'jetty-server',                          paths['jetty-server'], nil),
@@ -70,9 +70,14 @@ ALL_REPOS = [
   Repository.new(virgo_repo_root, 'performance-test',                      paths['performance-test'], nil),
   Repository.new(virgo_repo_root, 'system-verification-tests',             paths['system-verification-tests'], nil),
   Repository.new(virgo_repo_root, 'kernel-system-verification-tests',      paths['kernel-system-verification-tests'], nil),
-  Repository.new(virgo_repo_root, 'kernel-tools',                          paths['kernel-tools'], nil),
+  Repository.new(virgo_repo_root, 'kernel-tools',                          paths['kernel-tools'], nil)
+]
+
+GEMINI_WEB_PERMISSION_REPOS = [
   Repository.new(gemini_web_repo_root, 'gemini-web-container',             paths['gemini-web-container'], nil)
 ]
+
+ALL_REPOS = VIRGO_PERMISSION_REPOS + GEMINI_WEB_PERMISSION_REPOS
 
 start_time = Time.new
 
@@ -90,7 +95,14 @@ print 'Do you want to push? (y/n) '
 commit_ok = STDIN.gets.chomp
 if commit_ok =~ /y.*/
   ALL_REPOS.each do |repo|
-    repo.push("master")
+    begin
+      repo.push("master")
+    rescue SystemExit
+      if VIRGO_PERMISSION_REPOS.include?(repo)
+        abort("\nFATAL: Push failed for #{repo.name}")
+      end
+      puts "\nWARNING: Push failed for #{repo.name}"
+    end
   end
 end
 
