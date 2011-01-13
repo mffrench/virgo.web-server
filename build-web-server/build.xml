@@ -139,9 +139,9 @@
 
 	<target name="package.pickup" depends="ivy.init">
 		<ivy:resolve resolveId="copy.path" file="${basedir}/pickup-ivy.xml" transitive="true"/>
-		<ivy:retrieve resolveId="copy.path" pattern="${package.output.dir}/pickup/[artifact]-[revision].[ext]" type="jar, war" conf="pickup"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${package.output.dir}/pickup/[artifact]-[revision].[ext]" type="jar, war, wab" conf="pickup"/>
 		<ivy:retrieve resolveId="copy.path" pattern="${package.output.dir}/pickup/[artifact]-[revision].[ext]" type="plan" conf="pickup-plan"/>
-		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]-[revision].[ext]" type="jar, war" conf="pickup-plan"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]-[revision].[ext]" type="jar, war, wab" conf="pickup-plan"/>
 	</target>
 
 	<target name="package.repository" depends="ivy.init">
