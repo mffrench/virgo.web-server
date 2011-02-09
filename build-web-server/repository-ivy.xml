@@ -25,7 +25,7 @@
 		<dependency org="org.apache.commons" name="com.springsource.org.apache.commons.fileupload" rev="${org.apache.commons.fileupload}" conf="ext->runtime"/>
 		<dependency org="org.apache.commons" name="com.springsource.org.apache.commons.httpclient" rev="${org.apache.commons.httpclient}" conf="ext->runtime"/>
 		<dependency org="org.apache.commons" name="com.springsource.org.apache.commons.io" rev="${org.apache.commons.io}" conf="ext->runtime"/>
-		<dependency org="org.eclipse.osgi" name="org.eclipse.equinox.event" rev="${org.eclipse.equinox.event}"/>
+		<dependency org="org.eclipse.osgi" name="org.eclipse.equinox.event" rev="${org.eclipse.equinox.event}" conf="ext->runtime"/>
 		
 		<dependency org="org.apache.taglibs" name="com.springsource.org.apache.taglibs.standard" rev="${org.apache.taglibs.standard}" conf="ext->runtime"/>
 		<dependency org="org.aspectj" name="com.springsource.org.aspectj.weaver" rev="${org.aspectj}" conf="ext->runtime"/>
