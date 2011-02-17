@@ -7,7 +7,7 @@ require 'options'
 
 args = Choice.choices
 bundle_version = args[:version] + '.' + args[:build_stamp]
-gemini_version = args[:gemini_version] + '.' + args[:build_stamp]
+gemini_version = args[:gemini_version] + '.' + args[:gemini_build_stamp]
 
 DRY_RUN = args[:dryrun?].nil? ? false : true
 puts "This is a dry run..." if DRY_RUN

@@ -69,6 +69,12 @@ Choice.options do
     long('--gemini-version=GEMINI-BUILD-VERSION')
     desc('When producing a full-product build the gemini version must be given')
   end
+
+  option :gemini_build_stamp, :required => false do
+    short('-h')
+    long('--gemini-build-stamp=GEMINI-BUILD-STAMP')
+    desc('The build stamp for the Gemini release, e.g. M01, RELEASE')
+  end
    
   option :dryrun?, :required => false do
    long('--dry-run')
