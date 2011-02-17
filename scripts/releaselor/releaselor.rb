@@ -57,7 +57,7 @@ if args[:product_release] == 'full-product'
     Repository.new(virgo_eclipse_repo_root,  'apps',                 paths['apps'],                'org.eclipse.virgo.apps',            bundle_version),
     Repository.new(virgo_eclipse_repo_root,  'documentation',        paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,   'doc-html package publish publish-package-download'),
     Repository.new(virgo_eclipse_repo_root,  'web-server',           paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version,   'test package smoke-test publish publish-package-build publish-package-download'),
-    Repository.new(eclipse_repo_root,        'jetty-server',         paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    nil,              'jar package smoke-test publish publish-package-build publish-package-download')
+    Repository.new(virgo_eclipse_repo_root,  'jetty-server',         paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    nil,              'jar package smoke-test publish publish-package-build publish-package-download')
   ]
 
 elsif args[:product_release] == 'kernel' 
@@ -79,7 +79,7 @@ elsif args[:product_release] == 'web-server'
     Repository.new(virgo_eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version),
     Repository.new(virgo_eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,  'doc-html package publish publish-package-download'),
     Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version,  'test package smoke-test publish publish-package-build publish-package-download'),
-    Repository.new(eclipse_repo_root,       'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    nil,             'jar package smoke-test publish publish-package-build publish-package-download')
+    Repository.new(virgo_eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    nil,             'jar package smoke-test publish publish-package-build publish-package-download')
   ]
   
 else
@@ -97,7 +97,7 @@ else
     Repository.new(virgo_eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version),
     Repository.new(virgo_eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,  'doc-html package publish publish-package-download'),
     Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version,  'test package smoke-test publish publish-package-build publish-package-download'),
-    Repository.new(eclipse_repo_root,       'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    nil,             'jar package smoke-test publish publish-package-build publish-package-download')
+    Repository.new(virgo_eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    nil,             'jar package smoke-test publish publish-package-build publish-package-download')
   ]
   
 end
@@ -109,7 +109,7 @@ accumulate_versions = Hash.new
 ALL_REPOS.each do |repo|
   puts 'Releasing ' + repo.name
   puts '  checkout with "' + repo.clone_command + '"' if DRY_RUN
-  repo.checkout(true)
+  repo.checkout(false)
   if DRY_RUN
     puts "  Create Release branch " + args[:version] + ", " + args[:build_stamp] + ", " + args[:release_type] 
     puts "    using versions: "
