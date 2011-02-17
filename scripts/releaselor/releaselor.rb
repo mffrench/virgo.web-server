@@ -1,4 +1,4 @@
-#!/usr/bin/env ruby -wKU
+#!/usr/bin/env ruby -dwKU
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '/../lib')
 
@@ -31,7 +31,8 @@ else
     'web' => 'web',
     'apps' => 'apps',
     'documentation' => 'documentation',
-    'web-server' => 'web-server'
+    'web-server' => 'web-server',
+    'jetty-server' => 'jetty-server'
   }
 end
 
@@ -49,13 +50,14 @@ if args[:product_release] == 'full-product'
     Repository.new(virgo_eclipse_repo_root,  'test',                 paths['test'],                'org.eclipse.virgo.test',            bundle_version),
     Repository.new(virgo_eclipse_repo_root,  'medic',                paths['medic'],               'org.eclipse.virgo.medic',           bundle_version),
     Repository.new(virgo_eclipse_repo_root,  'artifact-repository',  paths['artifact-repository'], 'org.eclipse.virgo.repository',      bundle_version),
-    Repository.new(virgo_eclipse_repo_root,  'kernel',               paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version,  'test package publish publish-package-build publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root,  'kernel',               paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version,   'test package publish publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root,  'kernel-tools',         paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',    bundle_version),
     Repository.new(gemini_eclipse_repo_root, 'gemini-web-container', paths['gemini-web'],          'org.eclipse.gemini.web',            gemini_version),
     Repository.new(virgo_eclipse_repo_root,  'web',                  paths['web'],                 'org.eclipse.virgo.web',             bundle_version),
     Repository.new(virgo_eclipse_repo_root,  'apps',                 paths['apps'],                'org.eclipse.virgo.apps',            bundle_version),
-    Repository.new(virgo_eclipse_repo_root,  'documentation',        paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,  'doc-html package publish publish-package-download'),
-    Repository.new(virgo_eclipse_repo_root,  'web-server',           paths['web-server'],          nil,                                 bundle_version,  'test package smoke-test publish publish-package-build publish-package-download')
+    Repository.new(virgo_eclipse_repo_root,  'documentation',        paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,   'doc-html package publish publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root,  'web-server',           paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version,   'test package smoke-test publish publish-package-build publish-package-download'),
+    Repository.new(eclipse_repo_root,        'jetty-server',         paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    nil,              'jar package smoke-test publish publish-package-build publish-package-download')
   ]
 
 elsif args[:product_release] == 'kernel' 
@@ -76,7 +78,8 @@ elsif args[:product_release] == 'web-server'
     Repository.new(virgo_eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web',             bundle_version),
     Repository.new(virgo_eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version),
     Repository.new(virgo_eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,  'doc-html package publish publish-package-download'),
-    Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          nil,                                 bundle_version,  'test package smoke-test publish publish-package-build publish-package-download')
+    Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version,  'test package smoke-test publish publish-package-build publish-package-download'),
+    Repository.new(eclipse_repo_root,       'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    nil,             'jar package smoke-test publish publish-package-build publish-package-download')
   ]
   
 else
@@ -93,7 +96,8 @@ else
     Repository.new(virgo_eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web',             bundle_version),
     Repository.new(virgo_eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version),
     Repository.new(virgo_eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,  'doc-html package publish publish-package-download'),
-    Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          nil,                                 bundle_version,  'test package smoke-test publish publish-package-build publish-package-download')
+    Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version,  'test package smoke-test publish publish-package-build publish-package-download'),
+    Repository.new(eclipse_repo_root,       'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    nil,             'jar package smoke-test publish publish-package-build publish-package-download')
   ]
   
 end
