@@ -6,8 +6,11 @@ require 'repository'
 require 'options'
 
 args = Choice.choices
+
 bundle_version = args[:version] + '.' + args[:build_stamp]
-gemini_version = args[:gemini_version] + '.' + args[:gemini_build_stamp]
+if args[:product_release] == 'full-product'
+  gemini_version = args[:gemini_version] + '.' + args[:gemini_build_stamp]
+end
 
 DRY_RUN = args[:dryrun?].nil? ? false : true
 puts "This is a dry run..." if DRY_RUN
@@ -117,17 +120,25 @@ ALL_REPOS.each do |repo|
     if !args[:build_version].nil?
       puts '  updating Virgo Build to \'' + args[:build_version] + '\''
     end
-    puts "  Building " + repo.name + " (s3.keys)"
+    puts "  Building " + repo.name 
     puts "  Create tag " + repo.bundle_version
     puts "  Update Master branch " + args[:new_version]
   else
-    repo.create_release_branch(args[:version], args[:build_stamp], args[:release_type], accumulate_versions)
+    if repo.name == 'gemini-web-container'
+      repo.create_release_branch(args[:gemini_version], args[:gemini_build_stamp], args[:gemini_release_type], accumulate_versions)
+    else
+      repo.create_release_branch(args[:version], args[:build_stamp], args[:release_type], accumulate_versions)
+    end
     if !args[:build_version].nil?
-      repo.update_virgo_build(args[:build_version]) if !DRY_RUN
+      repo.update_virgo_build(args[:build_version]) 
     end
     repo.build(args[:remote_user], log_file)
     repo.create_tag
-    repo.update_master_branch(args[:new_version], accumulate_versions)
+    if repo.name == 'gemini-web-container'
+      repo.update_master_branch(args[:gemini_new_version], accumulate_versions)
+    else
+      repo.update_master_branch(args[:new_version], accumulate_versions)
+    end
   end
   accumulate_versions = (repo.versions).merge(accumulate_versions)
 end
@@ -140,7 +151,11 @@ if !DRY_RUN
   commit_ok = STDIN.gets.chomp
   if commit_ok =~ /y.*/
     ALL_REPOS.each do |repo|
-      repo.push(args[:new_version])
+      if repo.name == 'gemini-web-container'
+        repo.push(args[:gemini_new_version])
+      else
+        repo.push(args[:new_version])
+      end
     end
   end
 end

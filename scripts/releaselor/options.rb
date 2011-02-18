@@ -67,13 +67,25 @@ Choice.options do
   option :gemini_version, :required => false do
     short('-g')
     long('--gemini-version=GEMINI-BUILD-VERSION')
-    desc('When producing a full-product build the gemini version must be given')
+    desc('When producing a full-product build the Gemini version must be given')
   end
 
   option :gemini_build_stamp, :required => false do
     short('-h')
     long('--gemini-build-stamp=GEMINI-BUILD-STAMP')
-    desc('The build stamp for the Gemini release, e.g. M01, RELEASE')
+    desc('The build stamp for the Gemini Web release, e.g. M01, RELEASE')
+  end
+  
+  option :gemini_release_type, :required => false do
+    short('-j')
+    long('--gemini-release-type=GEMINI-RELEASE-TYPE')
+    desc('The release type for the Gemini Web release, e.g. milestone, release')
+  end
+
+  option :gemini_new_version, :required => false do
+    short('-k')
+    long('--gemini-new-version=GEMINI-NEW-VERSION')
+    desc('The new Gemini Web version number to be used after the release')
   end
    
   option :dryrun?, :required => false do
