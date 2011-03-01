@@ -55,7 +55,7 @@ if args[:product_release] == 'full-product'
     Repository.new(virgo_eclipse_repo_root,  'artifact-repository',  paths['artifact-repository'], 'org.eclipse.virgo.repository',      bundle_version),
     Repository.new(virgo_eclipse_repo_root,  'kernel',               paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version,   'test package publish publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root,  'kernel-tools',         paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',    bundle_version),
-    Repository.new(gemini_eclipse_repo_root, 'gemini-web-container', paths['gemini-web'],          'org.eclipse.gemini.web',            gemini_version,   'test package publish publish-package-build publish-package-download'),
+    Repository.new(gemini_eclipse_repo_root, 'gemini-web-container', paths['gemini-web'],          'org.eclipse.gemini.web',            gemini_version,   'test package publish'), #publish-package-build publish-package-download
     Repository.new(virgo_eclipse_repo_root,  'web',                  paths['web'],                 'org.eclipse.virgo.web',             bundle_version),
     Repository.new(virgo_eclipse_repo_root,  'apps',                 paths['apps'],                'org.eclipse.virgo.apps',            bundle_version),
     Repository.new(virgo_eclipse_repo_root,  'documentation',        paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version,   'doc-html package publish publish-package-download'),
