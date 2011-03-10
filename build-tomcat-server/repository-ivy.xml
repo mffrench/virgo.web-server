@@ -13,7 +13,7 @@
 	<dependencies>
 		<dependency org="org.springframework" name="org.springframework.spring-library" rev="${org.springframework}" conf="ext->runtime"/>
 		
-		<dependency org="org.eclipse.virgo.web" name="org.eclipse.virgo.web" rev="${org.eclipse.virgo.web}" conf="ext,transitive->runtime"/>
+		<dependency org="org.eclipse.virgo.web" name="org.eclipse.virgo.web.tomcat" rev="${org.eclipse.virgo.web}" conf="ext,transitive->runtime"/>
 		<dependency org="javax.ejb" name="com.springsource.javax.ejb" rev="${javax.ejb}" conf="ext->runtime"/>
 		<dependency org="javax.jms" name="com.springsource.javax.jms" rev="${javax.jms}" conf="ext->runtime"/>
 		<dependency org="javax.portlet" name="com.springsource.javax.portlet" rev="${javax.portlet}" conf="ext->runtime"/>

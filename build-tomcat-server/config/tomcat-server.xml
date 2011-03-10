@@ -22,7 +22,7 @@
 	<Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
 	<Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
 
-	<Listener className="org.eclipse.virgo.web.tomcat.ServerLifecycleLoggingListener"/>
+	<Listener className="org.eclipse.virgo.web.tomcat.support.ServerLifecycleLoggingListener"/>
 
 	<Service name="Catalina">
 		<Connector port="8080" protocol="HTTP/1.1"
@@ -49,7 +49,7 @@
 				<Valve className="org.apache.catalina.valves.AccessLogValve" directory="serviceability/logs/access"
 					prefix="localhost_access_log." suffix=".txt" pattern="common" resolveHosts="false"/>
 					
-				<Valve className="org.eclipse.virgo.web.tomcat.ApplicationNameTrackingValve"/>
+				<Valve className="org.eclipse.virgo.web.tomcat.support.ApplicationNameTrackingValve"/>
 			</Host>
 		</Engine>
 	</Service>

@@ -92,7 +92,7 @@
 		</chmod>
 
 		<replaceregexp match="initialArtifacts =.*\.springdm"
-				replace="initialArtifacts=repository:plan/org.eclipse.virgo.kernel.userregion.springdm, repository:plan/org.eclipse.virgo.web" flags="s"
+				replace="initialArtifacts=repository:plan/org.eclipse.virgo.kernel.userregion.springdm, repository:plan/org.eclipse.virgo.web.tomcat" flags="s"
 				file="${package.output.dir}/config/org.eclipse.virgo.kernel.userregion.properties"/>
 
 		<replaceregexp match="virgo-kernel" replace="virgo-server" flags="g"

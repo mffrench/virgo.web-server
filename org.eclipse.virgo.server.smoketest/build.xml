@@ -7,7 +7,7 @@
 	<property file="${basedir}/../build.properties"/>
 	<property file="${basedir}/../build.versions"/>
 	<import file="${basedir}/../virgo-build/standard/default.xml"/>
-	<import file="${basedir}/../build-web-server/test-package.xml"/>
+	<import file="${basedir}/../build-tomcat-server/test-package.xml"/>
 
 	<property name="apps.dir" value="${basedir}/apps"/>
 	
