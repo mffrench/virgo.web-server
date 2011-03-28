@@ -72,7 +72,7 @@ elsif args[:product_release] == 'kernel'
     Repository.new(virgo_eclipse_repo_root, 'test',                paths['test'],                'org.eclipse.virgo.test',            bundle_version),
     Repository.new(virgo_eclipse_repo_root, 'medic',               paths['medic'],               'org.eclipse.virgo.medic',           bundle_version),
     Repository.new(virgo_eclipse_repo_root, 'artifact-repository', paths['artifact-repository'], 'org.eclipse.virgo.repository',      bundle_version),
-    Repository.new(virgo_eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version,  'test package publish publish-package-build publish-package-download')
+    Repository.new(virgo_eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version,  'test package publish publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root, 'kernel-tools',        paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',    bundle_version)
   ]
 
