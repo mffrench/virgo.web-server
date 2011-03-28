@@ -60,8 +60,8 @@ Choice.options do
   option :product_release, :required => false do
    short('-r')
    long('--product-release=PRODUCT')
-   desc('The product to be released, kernel, web-server, full-product')
-   desc('(defaults to releasing all repos)')
+   desc('The product to be released, kernel, web-server, virgo, full-product')
+   desc('(defaults to releasing all the virgo repos)')
   end
 
   option :gemini_version, :required => false do
