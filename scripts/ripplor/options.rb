@@ -44,6 +44,14 @@ Choice.options do
    default(Etc.getlogin)
    desc('User id to use for remote repository access')
   end
+  
+  option :branch_name, :required => false do
+   short('-c')
+   long('--branch=BRANCH-NAME')
+   default('master')
+   desc('The branch to be rippled')
+   desc('(defaults to master)')
+  end
    
   option :dryrun?, :required => false do
    long('--dry-run')

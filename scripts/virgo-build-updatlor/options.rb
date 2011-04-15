@@ -31,5 +31,21 @@ Choice.options do
     desc('The property file containing a mapping from a repository name to a location')
     desc('(defaults to ~/repository.map)')
   end
+  
+  option :branch_name, :required => false do
+   short('-c')
+   long('--branch=BRANCH-NAME')
+   default('master')
+   desc('The branch to be updated')
+   desc('(defaults to master)')
+  end
+
+  option :gemini_branch_name, :required => false do
+   short('-d')
+   long('--gemini-branch=BRANCH-NAME')
+   default('master')
+   desc('The Gemini Web branch to be updated')
+   desc('(defaults to master)')
+  end
    
 end

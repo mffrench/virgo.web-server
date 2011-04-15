@@ -9,8 +9,9 @@ class Repository
   attr_reader :clone_command
   attr_reader :bundle_version
   attr_reader :path
+  attr_reader :master_branch
 
-  def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish', master_branch = 'master')
+  def initialize(repo_root, name, path, variable, bundle_version = nil, master_branch = 'master', targets = 'clean clean-integration test publish')
     if repo_root.nil?
       abort('Repository Git Root cannot be nil for repository ' + @name)
     end

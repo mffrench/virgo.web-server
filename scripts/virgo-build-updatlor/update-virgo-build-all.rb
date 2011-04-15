@@ -43,38 +43,39 @@ else
   }
 end
 
-#def initialize(repo_root, name, path, variable, bundle_version = nil, targets = 'clean clean-integration test publish publish-eclipse', committerId = '', master_branch = 'master')
+update_branch = args[:branch_name]
+gemini_update_branch = args[:gemini_branch_name]
 
 local_repo_root = 'git@git.springsource.org:virgo/'
 virgo_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/virgo/org.eclipse.virgo.'
 gemini_web_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/gemini.web/org.eclipse.gemini.web.'
 
 VIRGO_PERMISSION_REPOS = [
-  Repository.new(virgo_repo_root, 'sample-greenpages',                     paths['sample-greenpages'], nil),
-  Repository.new(virgo_repo_root, 'sample-configuration-properties',       paths['sample-configuration-properties'], nil),
-  Repository.new(virgo_repo_root, 'sample-formtags',                       paths['sample-formtags'], nil),
-  Repository.new(virgo_repo_root, 'sample-osgi-examples',                  paths['sample-osgi-examples'], nil),
-  Repository.new(virgo_repo_root, 'web-server',                            paths['web-server'], nil),
-  Repository.new(virgo_repo_root, 'jetty-server',                          paths['jetty-server'], nil),
-  Repository.new(virgo_repo_root, 'documentation',                         paths['documentation'], nil),
-  Repository.new(virgo_repo_root, 'apps',                                  paths['apps'], nil),
-  Repository.new(virgo_repo_root, 'snaps',                                 paths['snaps'], nil),
-  Repository.new(virgo_repo_root, 'web',                                   paths['web'], nil),
-  Repository.new(virgo_repo_root, 'kernel',                                paths['kernel'], nil),
-  Repository.new(virgo_repo_root, 'artifact-repository',                   paths['artifact-repository'], nil),
-  Repository.new(virgo_repo_root, 'medic',                                 paths['medic'], nil),
-  Repository.new(virgo_repo_root, 'test',                                  paths['test'], nil),
-  Repository.new(virgo_repo_root, 'util',                                  paths['util'], nil),
-  Repository.new(virgo_repo_root, 'osgi-extensions',                       paths['osgi-extensions'], nil),
-  Repository.new(virgo_repo_root, 'osgi-test-stubs',                       paths['osgi-test-stubs'], nil),
-  Repository.new(virgo_repo_root, 'performance-test',                      paths['performance-test'], nil),
-  Repository.new(virgo_repo_root, 'system-verification-tests',             paths['system-verification-tests'], nil),
-  Repository.new(virgo_repo_root, 'kernel-system-verification-tests',      paths['kernel-system-verification-tests'], nil),
-  Repository.new(virgo_repo_root, 'kernel-tools',                          paths['kernel-tools'], nil)
+  Repository.new(virgo_repo_root, 'sample-greenpages',                     paths['sample-greenpages'],                nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'sample-configuration-properties',       paths['sample-configuration-properties'],  nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'sample-formtags',                       paths['sample-formtags'],                  nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'sample-osgi-examples',                  paths['sample-osgi-examples'],             nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'web-server',                            paths['web-server'],                       nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'jetty-server',                          paths['jetty-server'],                     nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'documentation',                         paths['documentation'],                    nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'apps',                                  paths['apps'],                             nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'snaps',                                 paths['snaps'],                            nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'web',                                   paths['web'],                              nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'kernel',                                paths['kernel'],                           nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'artifact-repository',                   paths['artifact-repository'],              nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'medic',                                 paths['medic'],                            nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'test',                                  paths['test'],                             nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'util',                                  paths['util'],                             nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'osgi-extensions',                       paths['osgi-extensions'],                  nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'osgi-test-stubs',                       paths['osgi-test-stubs'],                  nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'performance-test',                      paths['performance-test'],                 nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'system-verification-tests',             paths['system-verification-tests'],        nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'kernel-system-verification-tests',      paths['kernel-system-verification-tests'], nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'kernel-tools',                          paths['kernel-tools'],                     nil, nil, update_branch)
 ]
 
 GEMINI_WEB_PERMISSION_REPOS = [
-  Repository.new(gemini_web_repo_root, 'gemini-web-container',             paths['gemini-web-container'], nil)
+  Repository.new(gemini_web_repo_root, 'gemini-web-container',             paths['gemini-web-container'],             nil, nil, gemini_update_branch)
 ]
 
 ALL_REPOS = VIRGO_PERMISSION_REPOS + GEMINI_WEB_PERMISSION_REPOS

@@ -64,6 +64,14 @@ Choice.options do
    desc('(defaults to releasing all the virgo repos)')
   end
 
+  option :branch_name, :required => false do
+   short('-c')
+   long('--branch=BRANCH-NAME')
+   default('master')
+   desc('The branch to be released')
+   desc('(defaults to master)')
+  end
+
   option :gemini_version, :required => false do
     short('-g')
     long('--gemini-version=GEMINI-BUILD-VERSION')
@@ -86,6 +94,14 @@ Choice.options do
     short('-k')
     long('--gemini-new-version=GEMINI-NEW-VERSION')
     desc('The new Gemini Web version number to be used after the release')
+  end
+  
+  option :gemini_branch_name, :required => false do
+   short('-d')
+   long('--gemini-branch=BRANCH-NAME')
+   default('master')
+   desc('The Gemini Web branch to be released')
+   desc('(defaults to master)')
   end
    
   option :dryrun?, :required => false do
