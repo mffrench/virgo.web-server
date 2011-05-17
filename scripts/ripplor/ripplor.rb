@@ -4,8 +4,10 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '/../lib')
 
 require 'repository'
 require 'options'
+require 'console'
 
 args = Choice.choices
+SCRIPT_NAME = "ripplor"
 
 DRY_RUN = args[:dryrun?].nil? ? false : true
 puts "This is a dry run..." if DRY_RUN
@@ -75,13 +77,16 @@ end
 repos.each do |repo|
   puts 'Rippling ' + repo.name
   puts '  checkout with "' + repo.clone_command + '"' if DRY_RUN
+  Console.change_title(SCRIPT_NAME, "#{repo.name} Checkout")
   repo.checkout if !DRY_RUN
   puts '  update_versions ...' if DRY_RUN
+  Console.change_title(SCRIPT_NAME, "#{repo.name} Update")
   repo.update_versions(versions) if !DRY_RUN
   if !args[:build_version].nil?
     repo.update_virgo_build(args[:build_version]) if !DRY_RUN
   end
   puts '  build with user: ' + args[:remote_user] + ' and TARGETS: ' + repo.targets if DRY_RUN
+  Console.change_title(SCRIPT_NAME, "#{repo.name} Build")
   repo.build(args[:remote_user], log_file) if !DRY_RUN
   versions.merge!(repo.versions) if !DRY_RUN
 end
@@ -93,6 +98,7 @@ if !DRY_RUN
   commit_ok = STDIN.gets.chomp
   if commit_ok =~ /y.*/
     repos.each do |repo|
+      Console.change_title(SCRIPT_NAME, "#{repo.name} Push")
       repo.push
     end
   end

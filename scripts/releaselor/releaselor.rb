@@ -4,8 +4,10 @@ $LOAD_PATH << File.expand_path(File.dirname(__FILE__) + '/../lib')
 
 require 'repository'
 require 'options'
+require 'console'
 
 args = Choice.choices
+SCRIPT_NAME = "releaselor"
 
 bundle_version = args[:version] + '.' + args[:build_stamp]
 if args[:product_release] == 'full-product'
@@ -131,6 +133,7 @@ accumulate_versions = Hash.new
 ALL_REPOS.each do |repo|
   puts 'Releasing ' + repo.name
   puts '  checkout with "' + repo.clone_command + '"' if DRY_RUN
+  Console.change_title(SCRIPT_NAME, "#{repo.name} Checkout")
   repo.checkout(true)
   if DRY_RUN
     puts "  Create Release branch " + args[:version] + ", " + args[:build_stamp] + ", " + args[:release_type] 
@@ -143,16 +146,21 @@ ALL_REPOS.each do |repo|
     puts "  Create tag " + repo.bundle_version
     puts "  Update Master branch " + args[:new_version]
   else
+    Console.change_title(SCRIPT_NAME, "#{repo.name} Create release branch")
     if repo.name == 'gemini-web-container'
       repo.create_release_branch(args[:gemini_version], args[:gemini_build_stamp], args[:gemini_release_type], accumulate_versions)
     else
       repo.create_release_branch(args[:version], args[:build_stamp], args[:release_type], accumulate_versions)
     end
     if !args[:build_version].nil?
+      Console.change_title(SCRIPT_NAME, "#{repo.name} Update Virgo build")
       repo.update_virgo_build(args[:build_version]) 
     end
+    Console.change_title(SCRIPT_NAME, "#{repo.name} Build")
     repo.build(args[:remote_user], log_file)
+    Console.change_title(SCRIPT_NAME, "#{repo.name} Create tag")
     repo.create_tag
+    Console.change_title(SCRIPT_NAME, "#{repo.name} Update master branch")
     if repo.name == 'gemini-web-container'
       repo.update_master_branch(args[:gemini_new_version], accumulate_versions)
     else
@@ -170,6 +178,7 @@ if !DRY_RUN
   commit_ok = STDIN.gets.chomp
   if commit_ok =~ /y.*/
     ALL_REPOS.each do |repo|
+      Console.change_title(SCRIPT_NAME, "#{repo.name} Push")
       if repo.name == 'gemini-web-container'
         repo.push(args[:gemini_new_version])
       else
