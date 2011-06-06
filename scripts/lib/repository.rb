@@ -48,7 +48,7 @@ class Repository
     if File.exist?(@path)
       FileUtils.rm_rf(@path)
     end
-    tonull = " >&/dev/null"
+    tonull = " > /dev/null 2>&1"
     puts '  Checking out ' + @path
     execute(@clone_command + (quietly ? tonull : ""))
     Dir.chdir(@path)

@@ -4,4 +4,8 @@ class Console
     print "\033]0;#{prefix}: #{title}\007"
   end
 
+  def Console.clear_title
+    print "\033]0; \007"
+  end
+
 end
