@@ -103,25 +103,25 @@
 		<ivy:resolve resolveId="copy.path" file="${basedir}/docs-ivy.xml" transitive="false" conf="docs"/>
 		<ivy:retrieve resolveId="copy.path" pattern="${basedir}/target/docs/[artifact]-[revision].[ext]" conf="docs" type="zip, pdf"/>
 
-		<copy todir="${package.output.dir}/docs/user-guide/pdf" flatten="true">
+		<copy todir="${package.output.dir}/docs/virgo-user-guide/pdf" flatten="true">
 			<fileset dir="${basedir}/target/docs">
 				<include name="**/virgo-user-guide*.pdf"/>
 			</fileset>
 		</copy>
 
-		<copy todir="${package.output.dir}/docs/programmer-guide/pdf" flatten="true">
+		<copy todir="${package.output.dir}/docs/virgo-programmer-guide/pdf" flatten="true">
 			<fileset dir="${basedir}/target/docs">
 				<include name="**/virgo-programmer-guide*.pdf"/>
 			</fileset>
 		</copy>
 
-		<unzip dest="${package.output.dir}/docs/user-guide">
+		<unzip dest="${package.output.dir}/docs/virgo-user-guide">
 			<fileset dir="${basedir}/target/docs">
 		        <include name="**/virgo-user-guide*.zip"/>
 		    </fileset>
 		</unzip>
 
-		<unzip dest="${package.output.dir}/docs/programmer-guide">
+		<unzip dest="${package.output.dir}/docs/virgo-programmer-guide">
 			<fileset dir="${basedir}/target/docs">
 		        <include name="**/virgo-programmer-guide*.zip"/>
 		    </fileset>
