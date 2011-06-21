@@ -36,7 +36,6 @@ else
   }
 end
 
-local_repo_root = 'git@git.springsource.org:virgo/'
 eclipse_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/virgo/org.eclipse.virgo.'
 ripple_branch = args[:branch_name]
 
