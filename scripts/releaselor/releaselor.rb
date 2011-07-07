@@ -56,15 +56,15 @@ if args[:product_release] == 'full-product'
     Repository.new(virgo_eclipse_repo_root,  'test',                 paths['test'],                'org.eclipse.virgo.test',            bundle_version, release_from_branch),
     Repository.new(virgo_eclipse_repo_root,  'medic',                paths['medic'],               'org.eclipse.virgo.medic',           bundle_version, release_from_branch),
     Repository.new(virgo_eclipse_repo_root,  'artifact-repository',  paths['artifact-repository'], 'org.eclipse.virgo.repository',      bundle_version, release_from_branch),
-    Repository.new(virgo_eclipse_repo_root,  'kernel',               paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version, release_from_branch,   'test package publish publish-package-build publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root,  'kernel',               paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root,  'kernel-tools',         paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',    bundle_version, release_from_branch),
-    Repository.new(gemini_eclipse_repo_root, 'gemini-web-container', paths['gemini-web'],          'org.eclipse.gemini.web',            gemini_version, gemini_release_from_branch,   'test package publish'), #publish-package-build publish-package-download
+    Repository.new(gemini_eclipse_repo_root, 'gemini-web-container', paths['gemini-web'],          'org.eclipse.gemini.web',            gemini_version, gemini_release_from_branch,   'clean clean-integration test package publish'), 
     Repository.new(virgo_eclipse_repo_root,  'web',                  paths['web'],                 'org.eclipse.virgo.web',             bundle_version, release_from_branch),
-    Repository.new(virgo_eclipse_repo_root,  'snaps',                paths['snaps'],               'org.eclipse.virgo.snaps',           bundle_version, release_from_branch, 'test package'),
+    Repository.new(virgo_eclipse_repo_root,  'snaps',                paths['snaps'],               'org.eclipse.virgo.snaps',           bundle_version, release_from_branch,  'clean clean-integration test package publish publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root,  'apps',                 paths['apps'],                'org.eclipse.virgo.apps',            bundle_version, release_from_branch),
-    Repository.new(virgo_eclipse_repo_root,  'documentation',        paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version, release_from_branch,   'doc-html package publish publish-package-download'),
-    Repository.new(virgo_eclipse_repo_root,  'web-server',           paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version, release_from_branch,   'test package smoke-test publish publish-package-build publish-package-download'),
-    Repository.new(virgo_eclipse_repo_root,  'jetty-server',         paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    bundle_version, release_from_branch,   'jar package smoke-test publish publish-package-build publish-package-download')
+    Repository.new(virgo_eclipse_repo_root,  'documentation',        paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version, release_from_branch,  'clean clean-integration doc-html package publish publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root,  'web-server',           paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root,  'jetty-server',         paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download')
   ]
 
 elsif args[:product_release] == 'kernel' 
@@ -76,7 +76,7 @@ elsif args[:product_release] == 'kernel'
     Repository.new(virgo_eclipse_repo_root, 'test',                paths['test'],                'org.eclipse.virgo.test',            bundle_version, release_from_branch),
     Repository.new(virgo_eclipse_repo_root, 'medic',               paths['medic'],               'org.eclipse.virgo.medic',           bundle_version, release_from_branch),
     Repository.new(virgo_eclipse_repo_root, 'artifact-repository', paths['artifact-repository'], 'org.eclipse.virgo.repository',      bundle_version, release_from_branch),
-    Repository.new(virgo_eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version, release_from_branch,  'test package publish publish-package-build publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root, 'kernel-tools',        paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',    bundle_version, release_from_branch)
   ]
 
@@ -84,11 +84,11 @@ elsif args[:product_release] == 'web-server'
   
   ALL_REPOS = [
     Repository.new(virgo_eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web',             bundle_version, release_from_branch),
-    Repository.new(virgo_eclipse_repo_root, 'snaps',               paths['snaps'],               'org.eclipse.virgo.snaps',           bundle_version, release_from_branch, 'test package'),
+    Repository.new(virgo_eclipse_repo_root, 'snaps',               paths['snaps'],               'org.eclipse.virgo.snaps',           bundle_version, release_from_branch,  'clean clean-integration test package publish publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version, release_from_branch),
-    Repository.new(virgo_eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version, release_from_branch,  'doc-html package publish publish-package-download'),
-    Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version, release_from_branch,  'test package smoke-test publish publish-package-build publish-package-download'),
-    Repository.new(virgo_eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    bundle_version, release_from_branch,  'jar package smoke-test publish publish-package-build publish-package-download')
+    Repository.new(virgo_eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version, release_from_branch,  'clean clean-integration doc-html package publish publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download')
   ]
   
 elsif args[:product_release] == 'virgo' 
@@ -100,14 +100,14 @@ elsif args[:product_release] == 'virgo'
     Repository.new(virgo_eclipse_repo_root, 'test',                paths['test'],                'org.eclipse.virgo.test',            bundle_version, release_from_branch),
     Repository.new(virgo_eclipse_repo_root, 'medic',               paths['medic'],               'org.eclipse.virgo.medic',           bundle_version, release_from_branch),
     Repository.new(virgo_eclipse_repo_root, 'artifact-repository', paths['artifact-repository'], 'org.eclipse.virgo.repository',      bundle_version, release_from_branch),
-    Repository.new(virgo_eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version, release_from_branch,  'test package publish publish-package-build publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root, 'kernel-tools',        paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',    bundle_version, release_from_branch),
     Repository.new(virgo_eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web',             bundle_version, release_from_branch),
-    Repository.new(virgo_eclipse_repo_root, 'snaps',               paths['snaps'],               'org.eclipse.virgo.snaps',           bundle_version, release_from_branch, 'test package'),
+    Repository.new(virgo_eclipse_repo_root, 'snaps',               paths['snaps'],               'org.eclipse.virgo.snaps',           bundle_version, release_from_branch,  'clean clean-integration test package publish publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version, release_from_branch),
-    Repository.new(virgo_eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version, release_from_branch,  'doc-html package publish publish-package-download'),
-    Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version, release_from_branch,  'test package smoke-test publish publish-package-build publish-package-download'),
-    Repository.new(virgo_eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    bundle_version, release_from_branch,  'jar package smoke-test publish publish-package-build publish-package-download')
+    Repository.new(virgo_eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version, release_from_branch,  'clean clean-integration doc-html package publish publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download')
   ]
 
 else
@@ -119,14 +119,14 @@ else
       Repository.new(virgo_eclipse_repo_root, 'test',                paths['test'],                'org.eclipse.virgo.test',            bundle_version, release_from_branch),
       Repository.new(virgo_eclipse_repo_root, 'medic',               paths['medic'],               'org.eclipse.virgo.medic',           bundle_version, release_from_branch),
       Repository.new(virgo_eclipse_repo_root, 'artifact-repository', paths['artifact-repository'], 'org.eclipse.virgo.repository',      bundle_version, release_from_branch),
-      Repository.new(virgo_eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version, release_from_branch,  'test package publish publish-package-build publish-package-download'),
+      Repository.new(virgo_eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download'),
       Repository.new(virgo_eclipse_repo_root, 'kernel-tools',        paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',    bundle_version, release_from_branch),
       Repository.new(virgo_eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web',             bundle_version, release_from_branch),
-      Repository.new(virgo_eclipse_repo_root, 'snaps',               paths['snaps'],               'org.eclipse.virgo.snaps',           bundle_version, release_from_branch, 'test package'),
+      Repository.new(virgo_eclipse_repo_root, 'snaps',               paths['snaps'],               'org.eclipse.virgo.snaps',           bundle_version, release_from_branch,  'clean clean-integration test package publish publish-package-build publish-package-download'),
       Repository.new(virgo_eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version, release_from_branch),
-      Repository.new(virgo_eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version, release_from_branch,  'doc-html package publish publish-package-download'),
-      Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version, release_from_branch,  'test package smoke-test publish publish-package-build publish-package-download'),
-      Repository.new(virgo_eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    bundle_version, release_from_branch,  'jar package smoke-test publish publish-package-build publish-package-download')
+      Repository.new(virgo_eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version, release_from_branch,  'clean clean-integration doc-html package publish publish-package-download'),
+      Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download'),
+      Repository.new(virgo_eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download')
     ]
 
 end
