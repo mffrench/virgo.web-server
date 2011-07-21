@@ -147,9 +147,11 @@
 	<target name="package.repository" depends="ivy.init">
 		<ivy:resolve resolveId="copy.path" file="${basedir}/repository-ivy.xml" transitive="false"/>
 		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]-[revision].[ext]" conf="ext" type="library,jar,plan"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact].[ext]" conf="ext" type="configuration"/>
 
 		<ivy:resolve resolveId="copy.path" file="${basedir}/repository-ivy.xml" transitive="true"/>
 		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]-[revision].[ext]" conf="transitive" type="library,jar,plan" />
+		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact].[ext]" conf="transitive" type="configuration" />
 	</target>
 
 	<target name="package.resources">
