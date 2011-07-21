@@ -53,7 +53,7 @@ ALL_REPOS = [
   Repository.new(eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',          nil, ripple_branch),
   Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation', nil, ripple_branch, 'clean clean-integration doc-html publish'),
   Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',    nil, ripple_branch, 'clean clean-integration test package smoke-test publish publish-package-build'),
-  Repository.new(eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',  nil, ripple_branch, 'clean clean-integration test package')
+  Repository.new(eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',  nil, ripple_branch, 'clean clean-integration test package smoke-test publish publish-package-build')
 ]
 
 repos = Array.new
