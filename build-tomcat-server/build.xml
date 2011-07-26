@@ -23,7 +23,10 @@
 		<mkdir dir="${target.dir}"/>
 		
 		<condition property="dependancy.folder" value="milestone" else="${adjusted.release.type}">
-			<contains string="${org.eclipse.virgo.kernel}" substring=".M"/>
+			<or>
+				<contains string="${org.eclipse.virgo.kernel}" substring=".M"/>
+				<contains string="${org.eclipse.virgo.kernel}" substring=".RC"/>
+			</or>
 		</condition>
 		
 		<condition property="dependancy.folder" value="release" else="${adjusted.release.type}">
