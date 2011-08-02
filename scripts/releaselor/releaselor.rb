@@ -58,7 +58,7 @@ if args[:product_release] == 'full-product'
     Repository.new(virgo_eclipse_repo_root,  'artifact-repository',  paths['artifact-repository'], 'org.eclipse.virgo.repository',      bundle_version, release_from_branch),
     Repository.new(virgo_eclipse_repo_root,  'kernel',               paths['kernel'],              'org.eclipse.virgo.kernel',          bundle_version, release_from_branch,  'clean clean-integration test package smoke-test publish publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root,  'kernel-tools',         paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',    bundle_version, release_from_branch),
-    Repository.new(gemini_eclipse_repo_root, 'gemini-web-container', paths['gemini-web'],          'org.eclipse.gemini.web',            gemini_version, gemini_release_from_branch,   'clean clean-integration test package publish'), 
+    Repository.new(gemini_eclipse_repo_root, 'gemini-web-container', paths['gemini-web'],          'org.eclipse.gemini.web',            gemini_version, gemini_release_from_branch,   'clean clean-integration test doc package publish'), 
     Repository.new(virgo_eclipse_repo_root,  'web',                  paths['web'],                 'org.eclipse.virgo.web',             bundle_version, release_from_branch),
     Repository.new(virgo_eclipse_repo_root,  'snaps',                paths['snaps'],               'org.eclipse.virgo.snaps',           bundle_version, release_from_branch,  'clean clean-integration test package publish publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root,  'apps',                 paths['apps'],                'org.eclipse.virgo.apps',            bundle_version, release_from_branch),
