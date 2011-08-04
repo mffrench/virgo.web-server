@@ -1,6 +1,7 @@
 $LOAD_PATH << File.expand_path(File.dirname(__FILE__))
 
-require "version"
+require 'version'
+require 'fileutils'
 
 class Repository
 
@@ -46,6 +47,7 @@ class Repository
 
   def checkout(quietly=false)
     if File.exist?(@path)
+      puts '  Deleting old checkout at ' + @path
       FileUtils.rm_rf(@path)
     end
     tonull = " > /dev/null 2>&1"
@@ -123,6 +125,16 @@ class Repository
     execute("git checkout " + new_version)
     Dir.chdir(@path)
     execute('git commit --allow-empty -a -m "[UPDATE BUILDLOR] Updated Virgo Build to \'' + new_version + '\'"')
+  end
+  
+  def fork(branch_name)
+    create_branch(branch_name)
+  end
+  
+  def push_fork(branch_name)
+    puts 'Pushing ' + @name
+    Dir.chdir(@path)
+    execute('git push origin ' + branch_name)
   end
 
 ########################################################################################################################
