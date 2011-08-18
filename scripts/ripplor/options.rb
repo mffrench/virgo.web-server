@@ -48,7 +48,7 @@ Choice.options do
   option :branch_name, :required => false do
    short('-c')
    long('--branch=BRANCH-NAME')
-   default('master')
+   default('3.0.x')
    desc('The branch to be rippled')
    desc('(defaults to master)')
   end
