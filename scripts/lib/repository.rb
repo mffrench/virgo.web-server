@@ -136,6 +136,11 @@ class Repository
     Dir.chdir(@path)
     execute('git push origin ' + branch_name)
   end
+  
+  def update_version(new_version)
+    create_branch(new_version)
+    update_build_properties(new_version, nil, 'integration', 'VERSIONOR')
+  end
 
 ########################################################################################################################
 
@@ -155,7 +160,7 @@ class Repository
     @bundle_version = version + '.D-' + Time.now.utc.strftime("%Y%m%d%H%M%S")
   end
 
-  def update_build_properties(version, build_stamp = nil, release_type = 'integration')
+  def update_build_properties(version, build_stamp = nil, release_type = 'integration', name = 'RELEASELOR')
     properties = @path + '/build.properties'
     puts '    Updating properties'
     lines = IO.readlines(properties)
@@ -171,7 +176,7 @@ class Repository
       end
     end
     write_file(properties, lines)
-    execute('cd ' + @path + '; git commit --allow-empty -a -m "[RELEASELOR] Updated properties"')
+    execute('cd ' + @path + '; git commit --allow-empty -a -m "[' + name + '] Updated properties"')
   end
 
   def update_build_versions(versions)
