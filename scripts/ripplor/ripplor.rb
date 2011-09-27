@@ -46,14 +46,14 @@ ALL_REPOS = [
   Repository.new(eclipse_repo_root, 'test',                paths['test'],                'org.eclipse.virgo.test',          nil, ripple_branch),
   Repository.new(eclipse_repo_root, 'medic',               paths['medic'],               'org.eclipse.virgo.medic',         nil, ripple_branch),
   Repository.new(eclipse_repo_root, 'artifact-repository', paths['artifact-repository'], 'org.eclipse.virgo.repository',    nil, ripple_branch),
-  Repository.new(eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',        nil, ripple_branch, 'clean clean-integration test package smoke-test publish publish-package-build'),
+  Repository.new(eclipse_repo_root, 'kernel',              paths['kernel'],              'org.eclipse.virgo.kernel',        nil, ripple_branch, 'clean clean-integration test package smoke-test publish-ivy publish-package-build'),
   Repository.new(eclipse_repo_root, 'kernel-tools',        paths['kernel-tools'],        'org.eclipse.virgo.kernel-tools',  nil, ripple_branch),
   Repository.new(eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web',           nil, ripple_branch),
-  Repository.new(eclipse_repo_root, 'snaps',               paths['snaps'],               'org.eclipse.virgo.snaps',         nil, ripple_branch, 'clean clean-integration test package publish publish-package-build'),
+  Repository.new(eclipse_repo_root, 'snaps',               paths['snaps'],               'org.eclipse.virgo.snaps',         nil, ripple_branch, 'clean clean-integration test package publish-ivy publish-package-build'),
   Repository.new(eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',          nil, ripple_branch),
   Repository.new(eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation', nil, ripple_branch, 'clean clean-integration doc-html publish'),
-  Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',    nil, ripple_branch, 'clean clean-integration test package smoke-test publish publish-package-build'),
-  Repository.new(eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',  nil, ripple_branch, 'clean clean-integration test package smoke-test publish publish-package-build')
+  Repository.new(eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',    nil, ripple_branch, 'clean clean-integration test package smoke-test publish-ivy publish-package-build'),
+  Repository.new(eclipse_repo_root, 'jetty-server',        paths['jetty-server'],        'org.eclipse.virgo.jetty-server',  nil, ripple_branch, 'clean clean-integration test package smoke-test publish-ivy publish-package-build')
 ]
 
 repos = Array.new

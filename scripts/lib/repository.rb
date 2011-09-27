@@ -12,7 +12,7 @@ class Repository
   attr_reader :path
   attr_reader :master_branch
 
-  def initialize(repo_root, name, path, variable, bundle_version = nil, master_branch = '3.0.x', targets = 'clean clean-integration test publish')
+  def initialize(repo_root, name, path, variable, bundle_version = nil, master_branch = '3.0.x', targets = 'clean clean-integration test publish-ivy')
     if repo_root.nil?
       abort('Repository Git Root cannot be nil for repository ' + @name)
     end
