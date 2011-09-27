@@ -67,7 +67,7 @@ Choice.options do
   option :branch_name, :required => false do
    short('-c')
    long('--branch=BRANCH-NAME')
-   default('master')
+   default('3.0.x')
    desc('The branch to be released')
    desc('(defaults to master)')
   end
@@ -99,7 +99,7 @@ Choice.options do
   option :gemini_branch_name, :required => false do
    short('-d')
    long('--gemini-branch=BRANCH-NAME')
-   default('master')
+   default('2.0.x')
    desc('The Gemini Web branch to be released')
    desc('(defaults to master)')
   end
