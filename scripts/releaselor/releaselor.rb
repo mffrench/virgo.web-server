@@ -65,8 +65,8 @@ if args[:product_release] == 'full-product'
     Repository.new(virgo_eclipse_repo_root,  'snaps',                paths['snaps'],               'org.eclipse.virgo.snaps',           bundle_version, release_from_branch,        'clean clean-integration test package publish-ivy publish-maven publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root,  'apps',                 paths['apps'],                'org.eclipse.virgo.apps',            bundle_version, release_from_branch,        default_targets),
     Repository.new(virgo_eclipse_repo_root,  'documentation',        paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version, release_from_branch,        'clean clean-integration doc-html package publish-ivy publish-maven publish-package-download'),
-    Repository.new(virgo_eclipse_repo_root,  'web-server',           paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version, release_from_branch,        'clean clean-integration test package smoke-test publish publish-package-build publish-package-download'),
-    Repository.new(virgo_eclipse_repo_root,  'jetty-server',         paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    bundle_version, release_from_branch,        'clean clean-integration test package smoke-test publish publish-package-build publish-package-download')
+    Repository.new(virgo_eclipse_repo_root,  'web-server',           paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version, release_from_branch,        'clean clean-integration test package smoke-test publish-ivy publish-maven publish-package-build publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root,  'jetty-server',         paths['jetty-server'],        'org.eclipse.virgo.jetty-server',    bundle_version, release_from_branch,        'clean clean-integration test package smoke-test publish-ivy publish-maven publish-package-build publish-package-download')
   ]
 
 elsif args[:product_release] == 'kernel' 
@@ -86,7 +86,7 @@ elsif args[:product_release] == 'web-server'
   
   ALL_REPOS = [
     Repository.new(virgo_eclipse_repo_root, 'web',                 paths['web'],                 'org.eclipse.virgo.web',             bundle_version, release_from_branch, default_targets),
-    Repository.new(virgo_eclipse_repo_root, 'snaps',               paths['snaps'],               'org.eclipse.virgo.snaps',           bundle_version, release_from_branch, 'clean clean-integration test package publish publish-package-build publish-package-download'),
+    Repository.new(virgo_eclipse_repo_root, 'snaps',               paths['snaps'],               'org.eclipse.virgo.snaps',           bundle_version, release_from_branch, 'clean clean-integration test package publish-ivy publish-maven publish-package-build publish-package-download'),
     Repository.new(virgo_eclipse_repo_root, 'apps',                paths['apps'],                'org.eclipse.virgo.apps',            bundle_version, release_from_branch, default_targets),
     Repository.new(virgo_eclipse_repo_root, 'documentation',       paths['documentation'],       'org.eclipse.virgo.documentation',   bundle_version, release_from_branch, 'clean clean-integration doc-html package publish-ivy publish-maven publish-package-download'),
     Repository.new(virgo_eclipse_repo_root, 'web-server',          paths['web-server'],          'org.eclipse.virgo.web-server',      bundle_version, release_from_branch, 'clean clean-integration test package smoke-test publish-ivy publish-maven publish-package-build publish-package-download'),
