@@ -34,17 +34,27 @@ else
     'performance-test' => 'performance-test',
     'system-verification-tests' => 'system-verification-tests',
     'kernel-system-verification-tests' => 'kernel-system-verification-tests',
-    'kernel-tools' => 'kernel-tools'
+    'kernel-tools' => 'kernel-tools',
+    'sample-greenpages' => 'sample-greenpages',
+    'sample-configuration-properties' => 'sample-configuration-properties',
+    'sample-formtags' => 'sample-formtags',
+    'sample-osgi-examples' => 'sample-osgi-examples',
+    'gemini-web-container' => 'gemini-web-container'
   }
 end
 
-update_branch = '3.0.x'
-gemini_update_branch = '2.0.x'
+update_branch = args[:branch_name]
+gemini_update_branch = args[:gemini_branch_name]
 
 local_repo_root = 'git@git.springsource.org:virgo/'
 virgo_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/virgo/org.eclipse.virgo.'
+gemini_web_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/gemini.web/org.eclipse.gemini.web.'
 
 VIRGO_PERMISSION_REPOS = [
+  Repository.new(virgo_repo_root, 'sample-greenpages',                     paths['sample-greenpages'],                nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'sample-configuration-properties',       paths['sample-configuration-properties'],  nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'sample-formtags',                       paths['sample-formtags'],                  nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'sample-osgi-examples',                  paths['sample-osgi-examples'],             nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'web-server',                            paths['web-server'],                       nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'jetty-server',                          paths['jetty-server'],                     nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'documentation',                         paths['documentation'],                    nil, nil, update_branch),
@@ -64,9 +74,11 @@ VIRGO_PERMISSION_REPOS = [
   Repository.new(virgo_repo_root, 'kernel-tools',                          paths['kernel-tools'],                     nil, nil, update_branch)
 ]
 
-
-
-ALL_REPOS = VIRGO_PERMISSION_REPOS
+GEMINI_WEB_PERMISSION_REPOS = [
+  Repository.new(gemini_web_repo_root, 'gemini-web-container',             paths['gemini-web-container'],             nil, nil, gemini_update_branch)
+]
+ 
+ALL_REPOS = VIRGO_PERMISSION_REPOS + GEMINI_WEB_PERMISSION_REPOS
 
 start_time = Time.new
 
@@ -85,7 +97,11 @@ commit_ok = STDIN.gets.chomp
 if commit_ok =~ /y.*/
   ALL_REPOS.each do |repo|
     begin
-      repo.push("3.0.x")
+      if repo.name == 'gemini-web-container'
+        repo.push(args[:gemini_branch_name])
+      else
+        repo.push(args[:branch_name])
+      end
     rescue SystemExit
       if VIRGO_PERMISSION_REPOS.include?(repo)
         abort("\nFATAL: Push failed for #{repo.name}")
