@@ -41,7 +41,7 @@
 					userClassNames="org.eclipse.virgo.kernel.authentication.User"
 					roleClassNames="org.eclipse.virgo.kernel.authentication.Role"/>
 
-			<Host name="localhost"  appBase="webapps"
+			<Host name="localhost"  appBase=""
 					unpackWARs="false" autoDeploy="false"
 					deployOnStartup="false" createDirs="false">
 
