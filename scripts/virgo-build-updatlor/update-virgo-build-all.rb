@@ -39,7 +39,8 @@ else
     'sample-configuration-properties' => 'sample-configuration-properties',
     'sample-formtags' => 'sample-formtags',
     'sample-osgi-examples' => 'sample-osgi-examples',
-    'gemini-web-container' => 'gemini-web-container'
+    'gemini-web-container' => 'gemini-web-container',
+    'nano' => 'nano'
   }
 end
 
@@ -51,6 +52,7 @@ virgo_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/virg
 gemini_web_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/gemini.web/org.eclipse.gemini.web.'
 
 VIRGO_PERMISSION_REPOS = [
+  Repository.new(virgo_repo_root, 'nano',                                  paths['nano'],                             nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'sample-greenpages',                     paths['sample-greenpages'],                nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'sample-configuration-properties',       paths['sample-configuration-properties'],  nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'sample-formtags',                       paths['sample-formtags'],                  nil, nil, update_branch),
