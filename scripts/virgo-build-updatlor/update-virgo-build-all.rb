@@ -34,7 +34,6 @@ else
     'performance-test' => 'performance-test',
     'system-verification-tests' => 'system-verification-tests',
     'kernel-system-verification-tests' => 'kernel-system-verification-tests',
-    'kernel-tools' => 'kernel-tools',
     'sample-greenpages' => 'sample-greenpages',
     'sample-configuration-properties' => 'sample-configuration-properties',
     'sample-formtags' => 'sample-formtags',
