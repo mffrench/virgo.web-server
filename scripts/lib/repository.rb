@@ -182,7 +182,7 @@ class Repository
   def update_build_versions(versions)
     puts '    Updating versions'
     versions.sort.reverse.each do |var_version|
-      Version.update(var_version[0], var_version[1], @path)
+      Version.update(var_version[0], var_version[1], @path, true)
     end
     execute('cd ' + @path + '; git commit --allow-empty -a -m "[RELEASELOR] Updated versions"')
   end
