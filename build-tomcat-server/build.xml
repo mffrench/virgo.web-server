@@ -31,7 +31,7 @@
 		<echo message="Fetched the Kernel updatesite zip to ${target.dir}/virgo-kernel-updatesite-${org.eclipse.virgo.kernel}.zip"/>
 	</target>
 
-	<target name="package" depends="ivy.init,fetch-kernel-updatesite">
+	<target name="package" depends="fetch-kernel-updatesite">
 		<delete dir="${package.output.dir}" quiet="true"/>
 		<mkdir dir="${package.output.dir}"/>
 
@@ -46,7 +46,7 @@
         <delete file="${target.dir}/virgo-kernel-updatesite-${org.eclipse.virgo.kernel}.zip" quiet="true"/>
         
         <unzip src="${p2.repository.dir}/binary/kernel_specific_resources_1.0.0" dest="${tomcat.server.resources}">
-			<globmapper from="kernel_specific_resources/*" to="*"/>
+			<globmapper from="kernel_specific_resources_1.0.0/*" to="*"/>
 		</unzip>
         
 		<mkdir dir="${tomcat.server.resources}/work"/>
@@ -71,7 +71,7 @@
         
         <!--prepare tomcat server feature for publishing -->
         <copy todir="${target.dir}/assembly/features" failonerror="false">
-			<fileset dir="${basedir}/publish_resources/features" excludes="keystore"/>
+			<fileset dir="${basedir}/publish_resources/features"/>
 		</copy>
         
         <!-- proceed with publish -->
