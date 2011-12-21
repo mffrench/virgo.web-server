@@ -7,19 +7,10 @@
 	<property file="${basedir}/../build.versions"/>
 	<import file="${basedir}/../virgo-build/multi-bundle/default.xml"/>
 
-    <!--P2 publishing properties-->
-    <property name="publishing.dir" value="${basedir}/target/repository"/>
-    <property name="distro.res" value="${basedir}/distro_resources"/>
-    <property name="p2.repo.url" value="file:///${publishing.dir}"/>
-    <property name="product.file" value="${basedir}/org.eclipse.virgo.kernel.product"/>
-    <property name="lib.product.file" value="${basedir}/org.eclipse.virgo.kernel.lib.product"/>
-    <property name="lib.kernel.product.file" value="${basedir}/org.eclipse.virgo.kernel.lib.kernel.product"/>
-    <property name="repository.ext.product.file" value="${basedir}/org.eclipse.virgo.kernel.repository.ext.product"/>
-
 	<target name="precommit" depends="clean, clean-integration, test, package, smoke-test"
 		description="Performs a CI server-like build, should be run prior to performing a Git push"/>
-
-	<target name="fetch-kernel">
+    
+    <target name="fetch-kernel-updatesite">
 		<mkdir dir="${target.dir}"/>
 		
 		<condition property="dependancy.folder" value="milestone" else="${adjusted.release.type}">
@@ -33,38 +24,87 @@
 			<contains string="${org.eclipse.virgo.kernel}" substring=".RELEASE"/>
 		</condition>
 		
-		<get src="http://build.eclipse.org/rt/virgo/zips/${dependancy.folder}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"
-				dest="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" 
-				usetimestamp="true" />
+		<get src="http://build.eclipse.org/rt/virgo/zips/${dependancy.folder}/VK/${org.eclipse.virgo.kernel}/virgo-kernel-updatesite-${org.eclipse.virgo.kernel}.zip"
+			dest="${target.dir}/virgo-kernel-updatesite-${org.eclipse.virgo.kernel}.zip" 
+			usetimestamp="true" />
 
-		<echo message="Fetched the Kernel zip to ${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip"/>
+		<echo message="Fetched the Kernel updatesite zip to ${target.dir}/virgo-kernel-updatesite-${org.eclipse.virgo.kernel}.zip"/>
 	</target>
 
-	<target name="package" depends="fetch-kernel">
+	<target name="package" depends="ivy.init,fetch-kernel-updatesite">
 		<delete dir="${package.output.dir}" quiet="true"/>
 		<mkdir dir="${package.output.dir}"/>
 
 		<property name="kernel.stage.file" value=""/>
-		<property name="repository.dir" value="${package.output.dir}/repository"/>
-		<property name="repository.ext" value="${repository.dir}/ext"/>
-		<property name="repository.usr" value="${repository.dir}/usr"/>
+        <property name="tomcat.server.resources" value="${target.dir}/tomcat_server_resources"/>
+        <property name="repository.ext" value="${tomcat.server.resources}/repository/ext"/>
+        <property name="repository.usr" value="${tomcat.server.resources}/repository/usr"/>
 
-		<unzip src="${target.dir}/virgo-kernel-${org.eclipse.virgo.kernel}.zip" dest="${package.output.dir}">
-			<globmapper from="virgo-kernel-${org.eclipse.virgo.kernel}/*" to="*"/>
+        <unzip src="${target.dir}/virgo-kernel-updatesite-${org.eclipse.virgo.kernel}.zip" dest="${p2.repository.dir}">
+			<globmapper from="virgo-kernel-updatesite-${org.eclipse.virgo.kernel}/*" to="*"/>
 		</unzip>
-		
-		<antcall target="package.bin"/>
+        <delete file="${target.dir}/virgo-kernel-updatesite-${org.eclipse.virgo.kernel}.zip" quiet="true"/>
+        
+        <unzip src="${p2.repository.dir}/binary/kernel_specific_resources_1.0.0" dest="${tomcat.server.resources}">
+			<globmapper from="kernel_specific_resources/*" to="*"/>
+		</unzip>
+        
+		<mkdir dir="${tomcat.server.resources}/work"/>
+		<mkdir dir="${repository.usr}"/>
+        
 		<antcall target="package.config"/>
 		<antcall target="package.docs"/>
 		<antcall target="package.lib"/>
 		<antcall target="package.pickup"/>
 		<antcall target="package.repository"/>
 		<antcall target="package.resources"/>
+        <antcall target="package.publish"/>
 
-		<mkdir dir="${package.output.dir}/work"/>
-		<mkdir dir="${repository.usr}"/>
+	</target>
+    
+    <target name="package.publish">
+        <property name="tomcat.server.resources.location" value="${target.dir}/tomcat_server_resources_zipped"/>
+		<zip destfile="${tomcat.server.resources.location}/binary/tomcat_server_resources">
+			<zipfileset dir="${tomcat.server.resources}"/>
+		</zip>
+        <delete dir="${tomcat.server.resources}" quiet="true"/>
+        
+        <!--prepare tomcat server feature for publishing -->
+        <copy todir="${target.dir}/assembly/features" failonerror="false">
+			<fileset dir="${basedir}/publish_resources/features" excludes="keystore"/>
+		</copy>
+        
+        <!-- proceed with publish -->
+        <antcall target="fetch-unzipped-virgo-build-tools"/>
+        
+        <property name="p2.products.location" value="${basedir}/publish_resources/products"/>
+        <antcall target="p2.publish-binary">
+            <param name="repository" value="${p2.repository.dir}"/>
+            <param name="source" value="${tomcat.server.resources.location}"/>
+        </antcall>
+        <echo message="Published the tomcat server resources to ${p2.repository.dir}."/>
+        
+        <antcall target="p2.publish-bundles-features">
+            <param name="repository" value="${p2.repository.dir}"/>
+            <param name="source" value="${target.dir}/assembly"/>
+        </antcall>
+        <echo message="Published bundles and features to ${p2.repository.dir}."/>
+        
+        <antcall target="p2.publish-product">
+            <param name="repository" value="${p2.repository.dir}"/>
+            <param name="product.file.location" value="${p2.products.location}/tomcat-server/tomcat-server.product"/>
+        </antcall>
+        <echo message="Published tomcat server product to ${p2.repository.dir}."/>
 
-		<mkdir dir="${artifacts.dir}"/>
+        <antcall target="p2.install-virgo-product">
+            <param name="repository" value="${p2.repository.dir}"/>
+            <param name="destination" value="${package.output.dir}"/>
+            <param name="product.iu" value="tomcat-server.product"/>
+        </antcall>
+        <echo message="Installed Virgo Tomcat Server for distribution purposes."/>
+        
+        <mkdir dir="${artifacts.dir}"/>
+        
 		<zip destfile="${package.output.file}">
 			<zipfileset dir="${package.dir}" includes="${package.basename}/bin/*.sh" filemode="755"/>
 			<zipfileset dir="${package.dir}" includes="${package.basename}/config/org.eclipse.virgo.kernel.jmxremote.access.properties" filemode="600"/>
@@ -73,58 +113,51 @@
 				<exclude name="${package.basename}/config/org.eclipse.virgo.kernel.jmxremote.access.properties"/>
 			</zipfileset>
 		</zip>
-	</target>
-
-	<target name="package.bin">
-		<chmod perm="755">
-			<fileset dir="${package.output.dir}/bin">
-				<include name="*.sh"/>
-			</fileset>
-		</chmod>
-	</target>
+        <zip destfile="${artifacts.dir}\${natural.name}-updatesite-${bundle.version}.zip">
+			<zipfileset dir="${p2.repository.dir}"/>
+		</zip>
+        
+        <delete dir="${tomcat.server.resources.location}" quiet="true"/>
+        <delete dir="${target.dir}/assembly" quiet="true"/>
+        <delete dir="${tools.dir}" quiet="true"/>
+    </target>
 
 	<target name="package.config">
-		<copy todir="${package.output.dir}/config" failonerror="false" overwrite="true">
+		<copy todir="${tomcat.server.resources}/config" failonerror="false" overwrite="true">
 			<fileset dir="${basedir}/config"/>
 		</copy>
-
-		<chmod perm="600">
-			<fileset dir="${package.output.dir}/config">
-				<include name="org.eclipse.virgo.kernel.jmxremote.access.properties"/>
-			</fileset>
-		</chmod>
-
-		<replaceregexp match="initialArtifacts =.*\.springdm"
+        
+        <replaceregexp match="initialArtifacts =.*\.springdm"
 				replace="initialArtifacts=repository:plan/org.eclipse.virgo.kernel.userregion.springdm, repository:plan/org.eclipse.virgo.web.tomcat" flags="s"
-				file="${package.output.dir}/config/org.eclipse.virgo.kernel.userregion.properties"/>
-
-		<replaceregexp match="virgo-kernel" replace="virgo-server" flags="g"
-				file="${package.output.dir}/config/serviceability.xml"/>
+				file="${tomcat.server.resources}/config/org.eclipse.virgo.kernel.userregion.properties"/>
+                
+        <replaceregexp match="virgo-kernel" replace="virgo-server" flags="g"
+				file="${tomcat.server.resources}/config/serviceability.xml"/>
 	</target>
 
 	<target name="package.docs" depends="ivy.init">
 		<ivy:resolve resolveId="copy.path" file="${basedir}/docs-ivy.xml" transitive="false" conf="docs"/>
 		<ivy:retrieve resolveId="copy.path" pattern="${basedir}/target/docs/[artifact]-[revision].[ext]" conf="docs" type="zip, pdf"/>
 
-		<copy todir="${package.output.dir}/docs/virgo-user-guide/pdf" flatten="true">
+		<copy todir="${tomcat.server.resources}/docs/virgo-user-guide/pdf" flatten="true">
 			<fileset dir="${basedir}/target/docs">
 				<include name="**/virgo-user-guide*.pdf"/>
 			</fileset>
 		</copy>
 
-		<copy todir="${package.output.dir}/docs/virgo-programmer-guide/pdf" flatten="true">
+		<copy todir="${tomcat.server.resources}/docs/virgo-programmer-guide/pdf" flatten="true">
 			<fileset dir="${basedir}/target/docs">
 				<include name="**/virgo-programmer-guide*.pdf"/>
 			</fileset>
 		</copy>
 
-		<unzip dest="${package.output.dir}/docs/virgo-user-guide">
+		<unzip dest="${tomcat.server.resources}/docs/virgo-user-guide">
 			<fileset dir="${basedir}/target/docs">
 		        <include name="**/virgo-user-guide*.zip"/>
 		    </fileset>
 		</unzip>
 
-		<unzip dest="${package.output.dir}/docs/virgo-programmer-guide">
+		<unzip dest="${tomcat.server.resources}/docs/virgo-programmer-guide">
 			<fileset dir="${basedir}/target/docs">
 		        <include name="**/virgo-programmer-guide*.zip"/>
 		    </fileset>
@@ -133,34 +166,29 @@
 	</target>
 
 	<target name="package.lib">
-		<echo file="${package.output.dir}/lib/.version" append="true"
+		<echo file="${tomcat.server.resources}/lib/.version" append="true"
 				message="virgo.server.version=${bundle.version}&#xa;"/>
-
-		<replaceregexp match="virgo-kernel" replace="virgo-server" flags="g"
-				file="${package.output.dir}/lib/java6-server.profile"/>
 	</target>
 
 	<target name="package.pickup" depends="ivy.init">
 		<ivy:resolve resolveId="copy.path" file="${basedir}/pickup-ivy.xml" transitive="true"/>
-		<ivy:retrieve resolveId="copy.path" pattern="${package.output.dir}/pickup/[artifact]-[revision].[ext]" type="jar, war, wab" conf="pickup"/>
-		<ivy:retrieve resolveId="copy.path" pattern="${package.output.dir}/pickup/[artifact]-[revision].[ext]" type="plan" conf="pickup-plan"/>
-		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]-[revision].[ext]" type="jar, war, wab" conf="pickup-plan"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${tomcat.server.resources}/pickup/[artifact]_[revision].[ext]" type="jar, war, wab" conf="pickup"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${tomcat.server.resources}/pickup/[artifact]_[revision].[ext]" type="plan" conf="pickup-plan"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]_[revision].[ext]" type="jar, war, wab" conf="pickup-plan"/>
 	</target>
 
 	<target name="package.repository" depends="ivy.init">
 		<ivy:resolve resolveId="copy.path" file="${basedir}/repository-ivy.xml" transitive="false"/>
-		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]-[revision].[ext]" conf="ext" type="library,jar,plan"/>
+		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]_[revision].[ext]" conf="ext" type="library,jar,plan"/>
 		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact].[ext]" conf="ext" type="configuration"/>
 
 		<ivy:resolve resolveId="copy.path" file="${basedir}/repository-ivy.xml" transitive="true"/>
-		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]-[revision].[ext]" conf="transitive" type="library,jar,plan" />
+		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact]_[revision].[ext]" conf="transitive" type="library,jar,plan" />
 		<ivy:retrieve resolveId="copy.path" pattern="${repository.ext}/[artifact].[ext]" conf="transitive" type="configuration" />
 	</target>
 
 	<target name="package.resources">
-		<move file="${package.output.dir}/About.html" tofile="${package.output.dir}/AboutKernel.html"/>
-
-		<copy todir="${package.output.dir}" failonerror="false">
+		<copy todir="${tomcat.server.resources}" failonerror="false">
 			<fileset dir="${basedir}/resources"/>
 		</copy>
 	</target>
@@ -177,73 +205,5 @@
 		</all-bundles>
 		<antcall target="test.post"/>
 	</target>
-
-
-    <target name="p2.publish" depends="package.resources, p2.extract-publisher"
-            description="Publishes bundles, features and product">
-        <java jar="${p2.launcher.jar}" fork="true" taskname="p2bundles" failonerror="true" maxmemory="256m">
-            <arg line="-application org.eclipse.equinox.p2.publisher.FeaturesAndBundlesPublisher"/>
-            <arg line="-metadataRepository ${p2.repo.url}"/>
-            <arg line="-artifactRepository ${p2.repo.url}"/>
-            <arg line="-bundles ${package.output.dir}/lib,${package.output.dir}/repository/ext"/>
-            <arg line="-publishArtifacts"/>
-            <arg line="-configs all"/>
-        </java>
-
-        <sshexec host="build.eclipse.org" 
-                username="${eclipse.buildId}" 
-                keyfile="${key.file}" 
-                passphrase="${passphrase}"
-                command="mkdir -pv /opt/public/rt/virgo/update-site/${release.type}/${build.stamp}"/>
-
-        <scp todir="${eclipse.buildId}@build.eclipse.org:/opt/public/rt/virgo/update-site/${release.type}/${build.stamp}/" 
-                keyfile="${key.file}"
-                passphrase="${passphrase}">
-            <fileset dir="${publishing.dir}"/>
-        </scp>
-        
-        <!-- <java jar="${p2.launcher.jar}" fork="true" taskname="p2product" failonerror="true" maxmemory="256m">
-                 <arg line="-application org.eclipse.equinox.p2.publisher.ProductPublisher"/>
-                 <arg line="-metadataRepository ${p2.repo.url}"/>
-                 <arg line="-artifactRepository ${p2.repo.url}"/>
-                 <arg line="-productFile ${product.file}"/>
-                 <arg line="-append"/>
-                 <arg line="-publishArtifacts"/>
-                 <arg line="-flavor tooling"/>
-                 <arg line="-configs all"/>
-             </java>
-             <java jar="${p2.launcher.jar}" fork="true" taskname="p2product" failonerror="true" maxmemory="256m">
-                 <arg line="-application org.eclipse.equinox.p2.publisher.ProductPublisher"/>
-                 <arg line="-metadataRepository ${p2.repo.url}"/>
-                 <arg line="-artifactRepository ${p2.repo.url}"/>
-                 <arg line="-productFile ${lib.product.file}"/>
-                 <arg line="-append"/>
-                 <arg line="-publishArtifacts"/>
-                 <arg line="-flavor tooling"/>
-                 <arg line="-configs all"/>
-             </java>
-             <java jar="${p2.launcher.jar}" fork="true" taskname="p2product" failonerror="true" maxmemory="256m">
-                 <arg line="-application org.eclipse.equinox.p2.publisher.ProductPublisher"/>
-                 <arg line="-metadataRepository ${p2.repo.url}"/>
-                 <arg line="-artifactRepository ${p2.repo.url}"/>
-                 <arg line="-productFile ${lib.kernel.product.file}"/>
-                 <arg line="-append"/>
-                 <arg line="-publishArtifacts"/>
-                 <arg line="-flavor tooling"/>
-                 <arg line="-configs all"/>
-             </java>
-             <java jar="${p2.launcher.jar}" fork="true" taskname="p2product" failonerror="true" maxmemory="256m">
-                 <arg line="-application org.eclipse.equinox.p2.publisher.ProductPublisher"/>
-                 <arg line="-metadataRepository ${p2.repo.url}"/>
-                 <arg line="-artifactRepository ${p2.repo.url}"/>
-                 <arg line="-productFile ${repository.ext.product.file}"/>
-                 <arg line="-append"/>
-                 <arg line="-publishArtifacts"/>
-                 <arg line="-flavor tooling"/>
-                 <arg line="-configs all"/>
-             </java> -->
-             <delete dir="${p2.publishing.dir}" excludes="p2agent.zip" includeemptydirs="true" quiet="true"/>
-    </target>
-
 
 </project>
