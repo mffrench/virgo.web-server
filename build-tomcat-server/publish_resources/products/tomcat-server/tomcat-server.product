@@ -16,5 +16,9 @@
       <feature id="org.eclipse.virgo.tomcat.resources" version="0.0.0"/>
       <feature id="org.eclipse.virgo.scripts" version="0.0.0"/>
    </features>
+   
+   <configurations>
+		<property name="org.eclipse.gemini.web.tomcat.config.path" value="configuration/tomcat-server.xml"/>
+	</configurations>
 
 </product>

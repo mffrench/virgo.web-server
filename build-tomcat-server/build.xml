@@ -49,7 +49,6 @@
 			<globmapper from="kernel_specific_resources_1.0.0/*" to="*"/>
 		</unzip>
         
-		<mkdir dir="${tomcat.server.resources}/work"/>
 		<mkdir dir="${repository.usr}"/>
         
 		<antcall target="package.config"/>
@@ -109,10 +108,10 @@
         
 		<zip destfile="${package.output.file}">
 			<zipfileset dir="${package.dir}" includes="${package.basename}/bin/*.sh" filemode="755"/>
-			<zipfileset dir="${package.dir}" includes="${package.basename}/config/org.eclipse.virgo.kernel.jmxremote.access.properties" filemode="600"/>
+			<zipfileset dir="${package.dir}" includes="${package.basename}/configuration/org.eclipse.virgo.kernel.jmxremote.access.properties" filemode="600"/>
 			<zipfileset dir="${package.dir}">
 				<exclude name="${package.basename}/bin/*.sh"/>
-				<exclude name="${package.basename}/config/org.eclipse.virgo.kernel.jmxremote.access.properties"/>
+				<exclude name="${package.basename}/configuration/org.eclipse.virgo.kernel.jmxremote.access.properties"/>
 			</zipfileset>
 		</zip>
         <zip destfile="${updatesite.output.file}">
@@ -125,16 +124,16 @@
     </target>
 
 	<target name="package.config">
-		<copy todir="${tomcat.server.resources}/config" failonerror="false" overwrite="true">
-			<fileset dir="${basedir}/config"/>
+		<copy todir="${tomcat.server.resources}/configuration" failonerror="false" overwrite="true">
+			<fileset dir="${basedir}/configuration"/>
 		</copy>
         
         <replaceregexp match="initialArtifacts =.*\.springdm"
 				replace="initialArtifacts=repository:plan/org.eclipse.virgo.kernel.userregion.springdm, repository:plan/org.eclipse.virgo.web.tomcat" flags="s"
-				file="${tomcat.server.resources}/config/org.eclipse.virgo.kernel.userregion.properties"/>
+				file="${tomcat.server.resources}/configuration/org.eclipse.virgo.kernel.userregion.properties"/>
                 
         <replaceregexp match="virgo-kernel" replace="virgo-server" flags="g"
-				file="${tomcat.server.resources}/config/serviceability.xml"/>
+				file="${tomcat.server.resources}/configuration/serviceability.xml"/>
 	</target>
 
 	<target name="package.docs" depends="ivy.init">
