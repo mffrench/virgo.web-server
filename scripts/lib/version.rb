@@ -25,7 +25,7 @@ class Version
         puts '       (-------: files in which <' + variable + '> is found with a version string are listed, those updated so prefixed)' if verbose
         changesMade = false
         Find.find(root) do |path|
-          Find.prune if dirAtPath?(path,["ivy-cache","target","integration-repo"])
+          Find.prune if dirAtPath?(path,["ivy-cache","target","integration-repo","virgo-build"])
           if FileTest.file?(path) && @@SEARCH_EXTENSIONS.include?(get_extension(path))
             lines = IO.readlines(path)
             changed = false
