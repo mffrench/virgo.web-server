@@ -44,28 +44,14 @@
 			<arg line="/c bin\startup.bat" />
 		</exec>
 
+		<echo message="Starting Up Virgo Server - script run and waiting for response from http://localhost:8080/" />
+
 		<waitfor maxwait="5" maxwaitunit="minute" timeoutproperty="start.failed">
 			<http url="http://localhost:8080/"/>
 		</waitfor>
 		<fail if="start.failed" message="Virgo Server start up failed"/>
-	</target>
-	
-	<target name="startup.clean" depends="shutdown">
-		<echo message="Clean Starting of Virgo Server" />
 
-		<exec dir="${test.package.dir}" osfamily="unix" spawn="true" executable="bin/startup.sh">
-			<arg line="-clean" />
-		</exec>
-		
-		<exec dir="${test.package.dir}" osfamily="windows" spawn="true" executable="cmd">
-			<arg line="/c bin\startup.bat" />
-			<arg line="-clean" />
-		</exec>
-
-		<waitfor maxwait="5" maxwaitunit="minute" timeoutproperty="start.failed">
-			<http url="http://localhost:8080/"/>
-		</waitfor>
-		<fail if="start.failed" message="Virgo Server clean start up failed"/>
+		<echo message="Starting Up Virgo Server - started" />
 	</target>
 
 	<target name="startup.post"/>
@@ -76,16 +62,21 @@
 		<echo message="Shutting Down Virgo Server" />
 
 		<exec dir="${test.package.dir}" osfamily="unix" spawn="true" executable="bin/shutdown.sh"/>
+		
 		<exec dir="${test.package.dir}" osfamily="windows" spawn="true" executable="cmd">
 			<arg line="/c bin\shutdown.bat" />
 		</exec>
 
+		<echo message="Shutting Down Virgo Server - waiting for http://localhost:8080/ to stop responding" />
+		
 		<waitfor maxwait="5" maxwaitunit="minute" timeoutproperty="shutdown.failed">
 			<not>
 				<http url="http://localhost:8080/"/>
 			</not>
 		</waitfor>
 		<fail if="shutdown.failed" message="Virgo Server shutdown failed"/>
+		
+		<echo message="Shutting Down Virgo Server - shutdown" />
 	</target>
 
 	<target name="shutdown.post"/>
