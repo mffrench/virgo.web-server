@@ -14,10 +14,12 @@
 		<dependency org="org.springframework" name="org.springframework.spring-library" rev="${org.springframework}" conf="ext->runtime"/>
 		
 		<dependency org="org.eclipse.virgo.web" name="org.eclipse.virgo.web.tomcat" rev="${org.eclipse.virgo.web}" conf="ext,transitive->runtime"/>
+        <dependency org="org.eclipse.virgo.web" name="org.eclipse.virgo.web.servlet.adapter" rev="${org.eclipse.virgo.web}" conf="ext->runtime"/>
 		<dependency org="javax.ejb" name="com.springsource.javax.ejb" rev="${javax.ejb}" conf="ext->runtime"/>
 		<dependency org="org.eclipse.virgo.mirrored" name="javax.jms" rev="${javax.jms}" conf="ext->runtime"/>
 		<dependency org="javax.portlet" name="com.springsource.javax.portlet" rev="${javax.portlet}" conf="ext->runtime"/>
 		<dependency org="org.eclipse.virgo.mirrored" name="javax.servlet" rev="${javax.servlet}" conf="ext->runtime"/>
+        <dependency org="org.eclipse.virgo.mirrored" name="javax.servlet.jsp" rev="${javax.servlet.jsp}" conf="ext->runtime"/>
 		<dependency org="javax.servlet" name="com.springsource.javax.servlet.jsp.jstl" rev="${javax.servlet.jsp.jstl}" conf="ext->runtime"/>
 		<dependency org="javax.xml.rpc" name="com.springsource.javax.xml.rpc" rev="${javax.xml.rpc}" conf="ext->runtime"/>
 		<dependency org="org.aopalliance" name="com.springsource.org.aopalliance" rev="${org.aopalliance}" conf="ext->runtime"/>
@@ -34,6 +36,7 @@
 		<dependency org="org.eclipse.virgo.mirrored" name="org.slf4j.jcl" rev="${org.slf4j.jcl}" conf="ext->runtime"/>
 		<dependency org="org.eclipse.virgo.mirrored" name="org.slf4j.log4j" rev="${org.slf4j.log4j}" conf="ext->runtime"/>	
 		<dependency org="org.eclipse.virgo.mirrored" name="org.slf4j.jul" rev="${org.slf4j.jul}" conf="ext->runtime"/>
+        <dependency org="org.eclipse.virgo.mirrored" name="org.eclipse.jdt.core.compiler.batch" rev="${org.eclipse.jdt.core.compiler.batch}" conf="ext->runtime"/>
 		<dependency org="org.springframework" name="org.springframework.aop" rev="${org.springframework}" conf="ext->runtime"/>
 		<dependency org="org.springframework" name="org.springframework.asm" rev="${org.springframework}" conf="ext->runtime"/>		
 		<dependency org="org.springframework" name="org.springframework.aspects" rev="${org.springframework}" conf="ext->runtime"/>
@@ -55,6 +58,10 @@
 		<dependency org="org.eclipse.gemini" name="org.eclipse.gemini.blueprint.io" rev="${org.eclipse.gemini.blueprint}" conf="ext->runtime"/>
 		
 		<exclude org="org.aspectj" module="com.springsource.org.aspectj.runtime"/>
+        <exclude org="org.slf4j"/>
+        <exclude org="javax.servlet" module="javax.servlet"/>
+        <exclude org="javax.servlet" module="javax.servlet.jsp"/>
+        <exclude org="org.eclipse.jdt" module="org.eclipse.jdt.core.compiler.batch"/>
 		<exclude org="org.apache.commons" module="com.springsource.org.apache.commons.logging"/>
 		<exclude org="org.eclipse.osgi" module="org.eclipse.osgi"/>
 		<exclude org="org.eclipse.virgo.util"/>
