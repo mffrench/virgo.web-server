@@ -17,6 +17,7 @@ if File.exist?(File.expand_path(args[:repository_map]))
   end
 else
   paths = {
+    'eclipse-mirror' => 'eclipse-mirror',
     'osgi-test-stubs' => 'osgi-test-stubs',
     'osgi-extensions' => 'osgi-extensions',
     'util' => 'util',
@@ -53,7 +54,8 @@ ALL_REPOS = [
   Repository.new(virgo_repo_root, 'test',                                  paths['test'],                             nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'util',                                  paths['util'],                             nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'osgi-extensions',                       paths['osgi-extensions'],                  nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'osgi-test-stubs',                       paths['osgi-test-stubs'],                  nil, nil, update_branch)
+  Repository.new(virgo_repo_root, 'osgi-test-stubs',                       paths['osgi-test-stubs'],                  nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'eclipse-mirror',                        paths['eclipse-mirror'],                   nil, nil, update_branch)
 ]
 
 
