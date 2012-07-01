@@ -24,7 +24,7 @@ else
     'test' => 'test',
     'medic' => 'medic',
     'artifact-repository' => 'artifact-repository',
-    'nano' => 'nano'
+    'nano' => 'nano',
     'kernel' => 'kernel',
     'kernel-tools' => 'kernel-tools',
     'web' => 'web',
