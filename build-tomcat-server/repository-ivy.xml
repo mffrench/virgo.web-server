@@ -64,6 +64,9 @@
         <exclude org="org.eclipse.jdt" module="org.eclipse.jdt.core.compiler.batch"/>
 		<exclude org="org.apache.commons" module="com.springsource.org.apache.commons.logging"/>
 		<exclude org="org.eclipse.osgi" module="org.eclipse.osgi"/>
+        <exclude org="javax.ejb" module="com.springsource.javax.ejb"/>
+        <exclude org="javax.xml.rpc" module="com.springsource.javax.xml.rpc"/>
+        <exclude org="org.eclipse.virgo.mirrored" module="org.eclipse.osgi"/>
 		<exclude org="org.eclipse.virgo.util"/>
 		<exclude org="javax.xml.ws"/>
 		
