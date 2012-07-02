@@ -15,13 +15,13 @@
 		
 		<dependency org="org.eclipse.virgo.web" name="org.eclipse.virgo.web.tomcat" rev="${org.eclipse.virgo.web}" conf="ext,transitive->runtime"/>
         <dependency org="org.eclipse.virgo.web" name="org.eclipse.virgo.web.servlet.adapter" rev="${org.eclipse.virgo.web}" conf="ext->runtime"/>
-		<dependency org="javax.ejb" name="com.springsource.javax.ejb" rev="${javax.ejb}" conf="ext->runtime"/>
+		<dependency org="org.eclipse.virgo.mirrored" name="javax.ejb" rev="${javax.ejb}" conf="ext->runtime"/>
 		<dependency org="org.eclipse.virgo.mirrored" name="javax.jms" rev="${javax.jms}" conf="ext->runtime"/>
 		<dependency org="javax.portlet" name="com.springsource.javax.portlet" rev="${javax.portlet}" conf="ext->runtime"/>
 		<dependency org="org.eclipse.virgo.mirrored" name="javax.servlet" rev="${javax.servlet}" conf="ext->runtime"/>
         <dependency org="org.eclipse.virgo.mirrored" name="javax.servlet.jsp" rev="${javax.servlet.jsp}" conf="ext->runtime"/>
 		<dependency org="javax.servlet" name="com.springsource.javax.servlet.jsp.jstl" rev="${javax.servlet.jsp.jstl}" conf="ext->runtime"/>
-		<dependency org="javax.xml.rpc" name="com.springsource.javax.xml.rpc" rev="${javax.xml.rpc}" conf="ext->runtime"/>
+		<dependency org="org.eclipse.virgo.mirrored" name="javax.xml.rpc" rev="${javax.xml.rpc}" conf="ext->runtime"/>
 		<dependency org="org.aopalliance" name="com.springsource.org.aopalliance" rev="${org.aopalliance}" conf="ext->runtime"/>
 		<dependency org="org.apache.commons" name="com.springsource.org.apache.commons.codec" rev="${org.apache.commons.codec}" conf="ext->runtime"/>
 		<dependency org="org.apache.commons" name="com.springsource.org.apache.commons.fileupload" rev="${org.apache.commons.fileupload}" conf="ext->runtime"/>
