@@ -17,12 +17,14 @@ if File.exist?(File.expand_path(args[:repository_map]))
   end
 else
   paths = {
+    'eclipse-mirror' => 'eclipse-mirror',
     'osgi-test-stubs' => 'osgi-test-stubs',
     'osgi-extensions' => 'osgi-extensions',
     'util' => 'util',
     'test' => 'test',
     'medic' => 'medic',
     'artifact-repository' => 'artifact-repository',
+    'nano' => 'nano',
     'kernel' => 'kernel',
     'kernel-tools' => 'kernel-tools',
     'web' => 'web',
@@ -48,12 +50,14 @@ ALL_REPOS = [
   Repository.new(virgo_repo_root, 'web',                                   paths['web'],                              nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'kernel-tools',                          paths['kernel-tools'],                     nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'kernel',                                paths['kernel'],                           nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'nano',                                  paths['nano'],                             nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'artifact-repository',                   paths['artifact-repository'],              nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'medic',                                 paths['medic'],                            nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'test',                                  paths['test'],                             nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'util',                                  paths['util'],                             nil, nil, update_branch),
   Repository.new(virgo_repo_root, 'osgi-extensions',                       paths['osgi-extensions'],                  nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'osgi-test-stubs',                       paths['osgi-test-stubs'],                  nil, nil, update_branch)
+  Repository.new(virgo_repo_root, 'osgi-test-stubs',                       paths['osgi-test-stubs'],                  nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'eclipse-mirror',                        paths['eclipse-mirror'],                   nil, nil, update_branch)
 ]
 
 
