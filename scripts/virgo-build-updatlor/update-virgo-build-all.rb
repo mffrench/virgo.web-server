@@ -18,8 +18,6 @@ if File.exist?(File.expand_path(args[:repository_map]))
 else
   paths = {
     'eclipse-mirror' => 'eclipse-mirror',
-    'osgi-test-stubs' => 'osgi-test-stubs',
-    'osgi-extensions' => 'osgi-extensions',
     'util' => 'util',
     'test' => 'test',
     'medic' => 'medic',
@@ -50,28 +48,26 @@ virgo_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/virg
 gemini_web_repo_root = 'ssh://' + args[:remote_user] + '@git.eclipse.org/gitroot/gemini.web/org.eclipse.gemini.web.'
 
 VIRGO_PERMISSION_REPOS = [
-  Repository.new(virgo_repo_root, 'sample-greenpages',                     paths['sample-greenpages'],                nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'sample-configuration-properties',       paths['sample-configuration-properties'],  nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'sample-formtags',                       paths['sample-formtags'],                  nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'sample-osgi-examples',                  paths['sample-osgi-examples'],             nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'web-server',                            paths['web-server'],                       nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'jetty-server',                          paths['jetty-server'],                     nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'documentation',                         paths['documentation'],                    nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'apps',                                  paths['apps'],                             nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'snaps',                                 paths['snaps'],                            nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'web',                                   paths['web'],                              nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'kernel',                                paths['kernel'],                           nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'artifact-repository',                   paths['artifact-repository'],              nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'medic',                                 paths['medic'],                            nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'test',                                  paths['test'],                             nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'util',                                  paths['util'],                             nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'osgi-extensions',                       paths['osgi-extensions'],                  nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'osgi-test-stubs',                       paths['osgi-test-stubs'],                  nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'eclipse-mirror',                       paths['eclipse-mirror'],                  nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'performance-test',                      paths['performance-test'],                 nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'system-verification-tests',             paths['system-verification-tests'],        nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'kernel-system-verification-tests',      paths['kernel-system-verification-tests'], nil, nil, update_branch),
-  Repository.new(virgo_repo_root, 'kernel-tools',                          paths['kernel-tools'],                     nil, nil, update_branch)
+  Repository.new(virgo_repo_root, 'sample-greenpages',                  paths['sample-greenpages'],                 nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'sample-configuration-properties',    paths['sample-configuration-properties'],   nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'sample-formtags',                    paths['sample-formtags'],                   nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'sample-osgi-examples',               paths['sample-osgi-examples'],              nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'web-server',                         paths['web-server'],                        nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'jetty-server',                       paths['jetty-server'],                      nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'documentation',                      paths['documentation'],                     nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'apps',                               paths['apps'],                              nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'snaps',                              paths['snaps'],                             nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'web',                                paths['web'],                               nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'kernel',                             paths['kernel'],                            nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'artifact-repository',                paths['artifact-repository'],               nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'medic',                              paths['medic'],                             nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'test',                               paths['test'],                              nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'util',                               paths['util'],                              nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'eclipse-mirror',                     paths['eclipse-mirror'],                    nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'performance-test',                   paths['performance-test'],                  nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'system-verification-tests',          paths['system-verification-tests'],         nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'kernel-system-verification-tests',   paths['kernel-system-verification-tests'],  nil, nil, update_branch),
+  Repository.new(virgo_repo_root, 'kernel-tools',                       paths['kernel-tools'],                      nil, nil, update_branch)
 ]
 
  

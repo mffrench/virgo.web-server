@@ -20,8 +20,6 @@ if File.exist?(File.expand_path(args[:repository_map]))
 else
   paths = {
     'eclipse-mirror' => 'eclipse-mirror',
-    'osgi-test-stubs' => 'osgi-test-stubs',
-    'osgi-extensions' => 'osgi-extensions',
     'util' => 'util',
     'test' => 'test',
     'medic' => 'medic',
@@ -43,8 +41,6 @@ ripple_branch = args[:branch_name]
 
 ALL_REPOS = [
     Repository.new(eclipse_repo_root, 'eclipse-mirror',     paths['eclipse-mirror'],     'org.eclipse.virgo.eclipse-mirror',     nil, ripple_branch, 'clean'),
-  Repository.new(eclipse_repo_root, 'osgi-test-stubs',     paths['osgi-test-stubs'],     'org.eclipse.virgo.teststubs',     nil, ripple_branch),
-  Repository.new(eclipse_repo_root, 'osgi-extensions',     paths['osgi-extensions'],     'org.eclipse.virgo.osgi',          nil, ripple_branch),
   Repository.new(eclipse_repo_root, 'util',                paths['util'],                'org.eclipse.virgo.util',          nil, ripple_branch),
   Repository.new(eclipse_repo_root, 'test',                paths['test'],                'org.eclipse.virgo.test',          nil, ripple_branch),
   Repository.new(eclipse_repo_root, 'medic',               paths['medic'],               'org.eclipse.virgo.medic',         nil, ripple_branch),
