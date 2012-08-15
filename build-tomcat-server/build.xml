@@ -128,8 +128,8 @@
 			<fileset dir="${basedir}/configuration"/>
 		</copy>
         
-        <replaceregexp match="initialArtifacts =.*\.springdm"
-				replace="initialArtifacts=repository:plan/org.eclipse.virgo.kernel.userregion.springdm, repository:plan/org.eclipse.virgo.web.tomcat" flags="s"
+        <replaceregexp match="initialArtifacts =.*\.blueprint"
+				replace="initialArtifacts=repository:plan/org.eclipse.virgo.kernel.userregion.blueprint, repository:plan/org.eclipse.virgo.web.tomcat" flags="s"
 				file="${tomcat.server.resources}/configuration/org.eclipse.virgo.kernel.userregion.properties"/>
                 
         <replaceregexp match="virgo-kernel" replace="virgo-server" flags="g"
